@@ -1,14 +1,27 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from "ionic-angular";
 
+import { LoginPage } from '../login/login';
+import { ProfilePage } from '../profile/profile';
+import { RegisterPage } from '../register/register';
+
+
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
-
+  constructor(
+    public nav: NavController, public navParams: NavParams) {
   }
 
+  async login() {
+    this.nav.push(LoginPage);
+  }
+
+  async register() {
+    this.nav.push(RegisterPage);
+  }
 }

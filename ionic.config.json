@@ -2,5 +2,7 @@
   "name": "serveCar",
   "app_id": "1160de1e",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }
