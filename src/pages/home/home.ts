@@ -18,7 +18,7 @@ export class HomePage {
   }
 
   async login() {
-    this.nav.push(LoginPage);
+    this.nav.setRoot(LoginPage);
   }
 
   async register() {

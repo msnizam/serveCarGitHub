@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Nav, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
+
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -8,11 +11,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public nav: Nav) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
-  }
-
+  async logout(){
+    this.afAuth.auth.signOut().then(() => {
+       //this.router.navigate(['']);
+       console.log("Logout successful");
+       this.navCtrl.setRoot(HomePage);
+    });
+    }
 }

@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from "../../model/user";
 import { AngularFireAuth } from 'angularfire2/auth';
+import { LoadingController } from 'ionic-angular';
 
 import { ProfilePage } from '../profile/profile';
 import { RegisterPage } from '../register/register';
@@ -16,16 +17,28 @@ export class LoginPage {
 
   user = {} as User;
 
-  constructor(private afAuth: AngularFireAuth,
-    public nav: NavController, public navParams: NavParams) {
+  loginForm: FormGroup;
+
+  constructor(public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public nav: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
+
+    this.nav = nav;
+
+       this.loginForm = formBuilder.group({
+           email: ['', Validators.compose([Validators.required, Validators.pattern('[A-Za-z0-9._%+-]{2,}@[a-zA-Z-_.]{2,}[.]{1}[a-zA-Z]{2,}')])],
+           password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+       });
   }
 
   async login(user: User) {
     try {
       const result = await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
       if (result) {
+        let loader = this.loadingCtrl.create({
+          content: "Login To Profile",
+          duration: 1000
+        });
+        loader.present();
         this.nav.setRoot(ProfilePage);
-        this.nav.popToRoot();
       }
     }
     catch (e) {
@@ -34,6 +47,6 @@ export class LoginPage {
   }
 
   async register() {
-    this.nav.push(RegisterPage);
+    this.nav.setRoot(RegisterPage);
   }
 }

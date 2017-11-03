@@ -8,14 +8,25 @@
 
 
 <ion-content padding>
-  <ion-item>
+  <form [formGroup]="registerForm">
+  <ion-item [ngClass]="{'error-border':!registerForm.controls.email.valid && registerForm.controls.email.touched}">
     <ion-label floating>Email Address</ion-label>
-    <ion-input type="text" [(ngModel)]="user.email"></ion-input>
+    <ion-input formControlName="email" type="text" [(ngModel)]="user.email"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="registerForm.controls.email.hasError('required') && registerForm.controls.email.touched">
+        <p>Sorry, field email is required!</p>
   </ion-item>
 
-  <ion-item>
+  <ion-item [ngClass]="{'error-border':!registerForm.controls.password.valid && registerForm.controls.password.touched}">
     <ion-label floating>Password</ion-label>
-    <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+    <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="registerForm.controls.password.hasError('required') && registerForm.controls.password.touched">
+        <p>Sorry, field password is required!</p>
+  </ion-item>
+  <ion-item *ngIf="registerForm.controls.password.hasError('minlength') && registerForm.controls.password.touched">
+      <p>Sorry, minimum password length is 6!</p>
   </ion-item>
 
   <button ion-button color="light" (click)="register(user)">Register</button>
+</form>

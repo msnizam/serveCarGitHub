@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from "../../model/user";
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -15,9 +15,18 @@ export class RegisterPage {
 
   user = {} as User;
 
-  constructor(private afAuth: AngularFireAuth,
-    public navCtrl: NavController, public navParams: NavParams) {
+  registerForm: FormGroup;
+
+  constructor(private afAuth: AngularFireAuth, public nav: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
+
+    this.nav = nav;
+
+       this.registerForm = formBuilder.group({
+           email: ['', Validators.compose([Validators.required, Validators.pattern('[A-Za-z0-9._%+-]{2,}@[a-zA-Z-_.]{2,}[.]{1}[a-zA-Z]{2,}')])],
+           password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+       });
   }
+
 
   async register(user: User) {
     try {

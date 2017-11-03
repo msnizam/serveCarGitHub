@@ -4,20 +4,20 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { CommonModule } from '@angular/common';
 
-import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { RegisterPage } from '../pages/register/register';
+import { SearchPage } from '../pages/search/search';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AngularFireModule } from 'angularfire2';
-import { HttpModule } from '@angular/http';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+
 
 const FirebaseConfig = {
     apiKey: "AIzaSyBaIVtjt8SMQxL0C66_1HvipoDagOsdYNs",
@@ -31,13 +31,13 @@ const FirebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
     ContactPage,
     HomePage,
     TabsPage,
     LoginPage,
     ProfilePage,
-    RegisterPage
+    RegisterPage,
+    SearchPage
   ],
   imports: [
     CommonModule,
@@ -49,18 +49,18 @@ const FirebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
     ContactPage,
     HomePage,
     TabsPage,
     LoginPage,
     ProfilePage,
-    RegisterPage
+    RegisterPage,
+    SearchPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
 export class AppModule {}
