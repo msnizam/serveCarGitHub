@@ -1,13 +1,55 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>profile</ion-title>
+    <ion-title>User Profile</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content padding>
-  <p>This is profile</p>
-  <p>You have successful login</p>
-  <button ion-button (click)= 'logout()'>Logout</button>
+
+  <div padding>
+    <ion-segment [(ngModel)]="profile">
+      <ion-segment-button value="owner">OWNER</ion-segment-button>
+      <ion-segment-button value="vehicle">VEHICLE LIST</ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="profile">
+    <ion-list *ngSwitchCase="'owner'">
+      <table>
+        <td>
+          <tr>Name</tr>
+          <tr>Phone Number</tr>
+          <tr>Email</tr>
+          <tr>Bio</tr>
+        </td>
+        <td>
+          <tr>:</tr>
+          <tr>:</tr>
+          <tr>:</tr>
+          <tr>:</tr>
+        </td>
+      </table>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'vehicle'">
+      <img src="img/car1.jpg">
+      <table>
+        <td>
+          <tr>Type</tr>
+          <tr>Make</tr>
+          <tr>Model</tr>
+          <tr>Year</tr>
+        </td>
+        <td>
+          <tr>:</tr>
+          <tr>:</tr>
+          <tr>:</tr>
+          <tr>:</tr>
+        </td>
+      </table>
+      <button ion-button (click)="addCar()">Add Car</button>  
+    </ion-list>
+
+  </div>
+<button ion-button (click)="logout()">Logout</button>
 </ion-content>

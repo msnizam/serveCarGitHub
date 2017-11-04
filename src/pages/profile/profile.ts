@@ -3,6 +3,7 @@ import { Nav, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { HomePage } from '../home/home';
+import { RegisterCarPage } from '../register-car/register-car';
 
 @IonicPage()
 @Component({
@@ -12,6 +13,11 @@ import { HomePage } from '../home/home';
 export class ProfilePage {
 
   constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams, public nav: Nav) {
+  }
+
+  async addCar(){
+    this.navCtrl.setRoot(RegisterCarPage);
+
   }
 
   async logout(){

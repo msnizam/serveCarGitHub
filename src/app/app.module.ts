@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { RegisterPage } from '../pages/register/register';
 import { SearchPage } from '../pages/search/search';
+import { RegisterCarPage } from '../pages/register-car/register-car';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -33,11 +34,12 @@ const FirebaseConfig = {
     MyApp,
     ContactPage,
     HomePage,
-    TabsPage,
     LoginPage,
+    TabsPage,
     ProfilePage,
     RegisterPage,
-    SearchPage
+    SearchPage,
+    RegisterCarPage
   ],
   imports: [
     CommonModule,
@@ -55,7 +57,9 @@ const FirebaseConfig = {
     LoginPage,
     ProfilePage,
     RegisterPage,
-    SearchPage
+    SearchPage,
+    RegisterPage,
+    RegisterCarPage
   ],
   providers: [
     StatusBar,
