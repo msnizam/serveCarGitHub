@@ -9,6 +9,31 @@
 
 <ion-content padding>
   <form [formGroup]="registerForm">
+  <ion-item [ngClass]="{'error-border':!registerForm.controls.fullname.valid && registerForm.controls.fullname.touched}">
+    <ion-label floating>Full Name</ion-label>
+    <ion-input formControlName="fullname" type="text" [(ngModel)]="user.fullname"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="registerForm.controls.fullname.hasError('required') && registerForm.controls.fullname.touched">
+        <p>Sorry, field Fullname is required!</p>
+  </ion-item>
+  <ion-item *ngIf="registerForm.controls.fullname.hasError('pattern') && registerForm.controls.fullname.touched">
+      <p>Sorry, only small and capital letters are allowed!</p>
+  </ion-item>
+
+  <ion-item [ngClass]="{'error-border':!registerForm.controls.username.valid && registerForm.controls.username.touched}">
+    <ion-label floating>Username</ion-label>
+    <ion-input formControlName="username" type="text" [(ngModel)]="user.username"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="registerForm.controls.username.hasError('required') && registerForm.controls.username.touched">
+      <p>Sorry, field username is required!</p>
+  </ion-item>
+  <ion-item *ngIf="registerForm.controls.username.hasError('minlength') && registerForm.controls.username.touched">
+      <p>Sorry, minimum username length is 8!</p>
+  </ion-item>
+  <ion-item *ngIf="registerForm.controls.username.hasError('maxlength') && registerForm.controls.username.touched">
+      <p>Sorry, maximum username length is 30!</p>
+  </ion-item>
+
   <ion-item [ngClass]="{'error-border':!registerForm.controls.email.valid && registerForm.controls.email.touched}">
     <ion-label floating>Email Address</ion-label>
     <ion-input formControlName="email" type="text" [(ngModel)]="user.email"></ion-input>
