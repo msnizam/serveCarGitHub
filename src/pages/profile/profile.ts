@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { Nav, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-
-import firebase from 'firebase';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 
 import { HomePage } from '../home/home';
 import { RegisterCarPage } from '../register-car/register-car';
+import { User } from "../../model/user";
 
 @IonicPage()
 @Component({
@@ -14,14 +13,20 @@ import { RegisterCarPage } from '../register-car/register-car';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
+  //user = {} as User;
 
-  profileData: FirebaseObjectObservable<User>
+  profileData: AngularFireObject<User>
 
-  constructor(private afAuth: AngularFireAuth, private afData: AngularFireDatabaseModule, public navCtrl: NavController, public navParams: NavParams, public nav: Nav) {
+  constructor(private afAuth: AngularFireAuth, private afData: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public nav: Nav) {
   }
 
     ionViewWillLoad() {
-    this.profileData = this.afData.object(`person1/${auth.uid}`)
+      this.afAuth.authState.take(1).subscribe(data => {
+        if(data){
+        this.profileData = this.afData.object(`person/${data.uid}`)
+        }
+      })
+
   }
   async addCar(){
     this.navCtrl.setRoot(RegisterCarPage);

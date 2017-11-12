@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { RegisterPage } from '../pages/register/register';
@@ -37,7 +36,6 @@ const FirebaseConfig = {
     ContactPage,
     HomePage,
     LoginPage,
-    TabsPage,
     ProfilePage,
     RegisterPage,
     SearchPage,
@@ -56,7 +54,6 @@ const FirebaseConfig = {
     MyApp,
     ContactPage,
     HomePage,
-    TabsPage,
     LoginPage,
     ProfilePage,
     RegisterPage,

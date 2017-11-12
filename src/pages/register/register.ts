@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from "../../model/user";
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import firebase from 'firebase';
 
 
@@ -35,44 +35,48 @@ export class RegisterPage {
 
   async register(user: User) {
     try {
-      const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
-
-      if (result) {
-        this.afAuth.authState.take(1).subscribe(auth => {
-          this.afData.object(`person/${auth.uid}`).set(this.user)
-          .then(() => {this.sendEmailVerification()});
-        })
-      }
+      this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).then((res) => {
+        this.sendEmailVerification()
+      })
+      .catch((err) => {
+        console.error(err)
+      });
     } catch (e) {
       console.error(e);
     }
   }
 
   sendEmailVerification() {
-    this.afAuth.authState.subscribe(auth => {
-        this.sendEmailVerification()
-        .then(() => {
-          //this.presentConfirm()
-          this.nav.setRoot(LoginPage);
-        })
-      });
+    try{
+      this.afAuth.authState.subscribe(auth => {
+          auth.sendEmailVerification()
+          .then(() => { this.sendDataProfile()
+            //this.nav.setRoot(LoginPage);
+          })
+        });
+    }
+    catch(e){
+      console.error(e);
+    }
   }
 
-  presentConfirm() {
-  let alert = this.alertCtrl.create({
-      title: 'Email Verification',
-      message: 'Your Email link has been sent.',
-      buttons: [
-        {
-          text: 'Ok',
-          role: 'Ok',
-          handler: () => {
-            console.log(LoginPage);
-          }
-        }
-      ]
-    });
-    alert.present();
+  sendDataProfile(){
+    this.afAuth.authState.take(1).subscribe(auth => {
+      this.afData.object(`person/${auth.uid}`).set(this.user)
+      .then(() => {this.nav.setRoot(LoginPage);});
+    })
   }
-
+/*presentConfirm() {
+let alert = this.actionSheetCtrl.create({
+    title: 'Email Verification',
+    message: 'Your Email link has been sent.',
+    buttons: [
+      {
+        text: 'Ok',
+        handler: () => {console.log(LoginPage);}
+      }
+    ]
+  });
+  alert.present();
+}*/
 }

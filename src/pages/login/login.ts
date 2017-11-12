@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController  } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from "../../model/user";
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -19,7 +19,7 @@ export class LoginPage {
 
   loginForm: FormGroup;
 
-  constructor(public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public nav: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
+  constructor(public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, private alertCtrl: AlertController, public nav: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
 
     this.nav = nav;
 
@@ -31,15 +31,20 @@ export class LoginPage {
 
   async login(user: User) {
     try {
-      const result = await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
-      if (result) {
-        let loader = this.loadingCtrl.create({
-          content: "Login To Profile",
-          duration: 1000
-        });
-        loader.present();
-        this.nav.setRoot(ProfilePage);
-      }
+      this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
+      .then((user) => {
+        if(user.emailVerified){
+          let loader = this.loadingCtrl.create({
+            content: `Welcome ${user.email} `,
+            duration: 1500
+          });
+          loader.present();
+          this.nav.setRoot(ProfilePage);
+        }
+        else{
+            this.presentAlert()
+        }
+      });
     }
     catch (e) {
       console.error(e);
@@ -48,5 +53,14 @@ export class LoginPage {
 
   async register() {
     this.nav.setRoot(RegisterPage);
+  }
+
+  presentAlert(){
+    let alert = this.alertCtrl.create({
+    title: 'Email Verification',
+    subTitle: 'Please check your email to verify your account',
+    buttons: ['Dismiss']
+  });
+  alert.present();
   }
 }

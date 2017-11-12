@@ -1,7 +1,15 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>User Profile</ion-title>
-  </ion-navbar>
+  <button ion-button menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
+
+  <ion-buttons end>
+     <button ion-button (click)="logout()">
+       <ion-icon name="logout">Logout</ion-icon>
+     </button>
+   </ion-buttons>
+ </ion-navbar>
 </ion-header>
 
 <ion-content padding>
@@ -18,15 +26,18 @@
       <table>
         <td>
           <tr>Name</tr>
-          <tr>Phone Number</tr>
+          <tr>Username</tr>
           <tr>Email</tr>
-          <tr>Bio</tr>
         </td>
         <td>
           <tr>:</tr>
           <tr>:</tr>
           <tr>:</tr>
-          <tr>:</tr>
+        </td>
+        <td>
+          <tr>{{(profileData.fullname | async)}}</tr>
+          <tr>{{(profileData.username | async)}}</tr>
+          <tr>{{(profileData.email | async)}}</tr>
         </td>
       </table>
     </ion-list>
@@ -47,9 +58,8 @@
           <tr>:</tr>
         </td>
       </table>
-      <button ion-button (click)="addCar()">Add Car</button>  
+      <button ion-button (click)="addCar()">Add Car</button>
     </ion-list>
 
   </div>
-<button ion-button (click)="logout()">Logout</button>
 </ion-content>
