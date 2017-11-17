@@ -54,7 +54,6 @@ export class RegisterPage {
             });
             loader.present();
             this.sendDataProfile()
-            //this.nav.setRoot(LoginPage);
           })
         });
     }

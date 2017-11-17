@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 export class CarListService {
 
   private carListRef = this.db.list<Car>('car-list');
-  carListRef: Observable<Car[]> = null;
+  carRef: Observable<Car[]> = null;
   userId: string;
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
@@ -20,8 +20,8 @@ export class CarListService {
 
   getCarList(){
     if (!this.userId) return;
-    this.carListRef = this.db.list(`carList/${this.userId}`);
-    return this.carListRef;
+    this.carRef = this.carListRef;
+    return this.carRef;
   }
 
   addCar(car: Car){
