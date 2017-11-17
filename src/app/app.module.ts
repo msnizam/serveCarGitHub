@@ -10,7 +10,9 @@ import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { RegisterPage } from '../pages/register/register';
 import { SearchPage } from '../pages/search/search';
-import { RegisterCarPage } from '../pages/register-car/register-car';
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
+import { OwnerAddCarPage } from '../pages/owner-add-car/owner-add-car';
+import { OwnerEditCarPage } from '../pages/owner-edit-car/owner-edit-car';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,6 +21,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AuthorizeProvider } from '../providers/authorize/authorize';
+
+import { CarListService } from './../services/car-list/car-list.service';
+import { ToastService } from './../services/toast/toast.service';
 
 
 const FirebaseConfig = {
@@ -39,7 +44,9 @@ const FirebaseConfig = {
     ProfilePage,
     RegisterPage,
     SearchPage,
-    RegisterCarPage
+    ResetPasswordPage,
+    OwnerAddCarPage,
+    OwnerEditCarPage
   ],
   imports: [
     CommonModule,
@@ -59,13 +66,17 @@ const FirebaseConfig = {
     RegisterPage,
     SearchPage,
     RegisterPage,
-    RegisterCarPage
+    ResetPasswordPage,
+    OwnerAddCarPage,
+    OwnerEditCarPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthorizeProvider,
+    CarListService,
+    ToastService,
   ]
 })
 export class AppModule {}

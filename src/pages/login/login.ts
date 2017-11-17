@@ -3,10 +3,10 @@ import { IonicPage, NavController, NavParams, AlertController  } from 'ionic-ang
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from "../../model/user";
 import { AngularFireAuth } from 'angularfire2/auth';
-import { LoadingController } from 'ionic-angular';
 
 import { ProfilePage } from '../profile/profile';
 import { RegisterPage } from '../register/register';
+import { ResetPasswordPage } from '../reset-password/reset-password';
 
 @IonicPage()
 @Component({
@@ -19,7 +19,7 @@ export class LoginPage {
 
   loginForm: FormGroup;
 
-  constructor(public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, private alertCtrl: AlertController, public nav: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
+  constructor(private afAuth: AngularFireAuth, private alertCtrl: AlertController, public nav: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
 
     this.nav = nav;
 
@@ -34,11 +34,6 @@ export class LoginPage {
       this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
       .then((user) => {
         if(user.emailVerified){
-          let loader = this.loadingCtrl.create({
-            content: `Welcome ${user.email} `,
-            duration: 1500
-          });
-          loader.present();
           this.nav.setRoot(ProfilePage);
         }
         else{
@@ -53,6 +48,10 @@ export class LoginPage {
 
   async register() {
     this.nav.setRoot(RegisterPage);
+  }
+
+  async reset(){
+    this.nav.push(ResetPasswordPage);
   }
 
   presentAlert(){

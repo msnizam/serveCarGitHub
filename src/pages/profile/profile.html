@@ -28,36 +28,31 @@
           <tr>Name</tr>
           <tr>Username</tr>
           <tr>Email</tr>
+          <tr>Phone Number</tr>
         </td>
         <td>
           <tr>:</tr>
           <tr>:</tr>
           <tr>:</tr>
+          <tr>:</tr>
         </td>
-        <td>
-          <tr>{{(profileData.fullname | async)}}</tr>
-          <tr>{{(profileData.username | async)}}</tr>
-          <tr>{{(profileData.email | async)}}</tr>
+        <td *ngFor="let profile of profileRef | async">
+          <tr> <input type="text" value={{profile.fullname}} readonly></tr>
+          <tr> <input type="text" value={{profile.username}} readonly> </tr>
+          <tr> <input type="text" value={{profile.email}} readonly></tr>
+          <tr> <input type="text" value={{profile.phone}} readonly></tr>
         </td>
       </table>
     </ion-list>
 
     <ion-list *ngSwitchCase="'vehicle'">
-      <img src="img/car1.jpg">
-      <table>
-        <td>
-          <tr>Type</tr>
-          <tr>Make</tr>
-          <tr>Model</tr>
-          <tr>Year</tr>
-        </td>
-        <td>
-          <tr>:</tr>
-          <tr>:</tr>
-          <tr>:</tr>
-          <tr>:</tr>
-        </td>
-      </table>
+      <ion-list-header>
+          Cars
+      </ion-list-header>
+        <ion-item *ngFor="let car of carList$ | async"
+        detail-push navPush="OwnerEditCarPage" [navParams]="{car: car}">
+          {{car.model}}
+        </ion-item>
       <button ion-button (click)="addCar()">Add Car</button>
     </ion-list>
 

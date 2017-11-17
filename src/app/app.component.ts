@@ -6,8 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { SearchPage } from '../pages/search/search';
 import { ProfilePage } from '../pages/profile/profile';
 import { HomePage } from '../pages/home/home';
-import { RegisterPage } from '../pages/register/register';
 import { LoginPage } from '../pages/login/login';
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 
 @Component({
   templateUrl: 'app.html'
