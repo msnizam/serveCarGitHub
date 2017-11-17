@@ -37,9 +37,6 @@ export class RegisterPage {
     try {
       this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).then((res) => {
         this.sendEmailVerification()
-      })
-      .catch((err) => {
-        console.error(err)
       });
     } catch (e) {
       console.error(e);
