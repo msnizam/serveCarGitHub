@@ -23,26 +23,15 @@
 
   <div [ngSwitch]="profile">
     <ion-list *ngSwitchCase="'owner'">
-      <table>
-        <td>
-          <tr>Name</tr>
-          <tr>Username</tr>
-          <tr>Email</tr>
-          <tr>Phone Number</tr>
-        </td>
-        <td>
-          <tr>:</tr>
-          <tr>:</tr>
-          <tr>:</tr>
-          <tr>:</tr>
-        </td>
-        <td *ngFor="let profile of profileRef | async">
-          <tr> <input type="text" value={{profile.fullname}} readonly></tr>
-          <tr> <input type="text" value={{profile.username}} readonly> </tr>
-          <tr> <input type="text" value={{profile.email}} readonly></tr>
-          <tr> <input type="text" value={{profile.phone}} readonly></tr>
-        </td>
-      </table>
+      <ion-list-header>
+          Owner
+      </ion-list-header>
+        <ion-item *ngFor="let profile of profileData$ | async">
+          <p>{{profile.username}}</p>
+          <p>{{profile.fullname}}</p>
+          <p>{{profile.email}}</p>
+          <p>{{profile.phone}}</p>
+        </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'vehicle'">

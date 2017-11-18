@@ -22,6 +22,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AuthorizeProvider } from '../providers/authorize/authorize';
 
 import { CarListService } from './../services/car-list/car-list.service';
+import { OwnerDetailsService } from './../services/owner-details/owner-details.service';
 import { ToastService } from './../services/toast/toast.service';
 
 
@@ -75,6 +76,7 @@ const FirebaseConfig = {
     AuthorizeProvider,
     CarListService,
     ToastService,
+    OwnerDetailsService,
   ]
 })
 export class AppModule {}

@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { Nav, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 
 import { HomePage } from '../home/home';
 import { OwnerAddCarPage } from '../owner-add-car/owner-add-car';
 import { OwnerEditCarPage } from '../owner-edit-car/owner-edit-car';
 import { CarListService } from './../../services/car-list/car-list.service';
+import { OwnerDetailsService } from './../../services/owner-details/owner-details.service';
 import { User } from "../../model/user";
 import { Car } from './../../model/car/car.model';
 
@@ -18,15 +19,22 @@ import { Car } from './../../model/car/car.model';
 })
 export class ProfilePage {
   //user = {} as User;
-  profileRef: AngularFireList<User>;
-  profileData$: Observable<User[]>;
+  profileData$: observable<User[]>;
   carList$: Observable<Car[]>;
 
   constructor(private afAuth: AngularFireAuth,
-    private afData: AngularFireDatabase, private rent: CarListService,
+    private afData: AngularFireDatabase, private rent: CarListService, private owner: OwnerDetailsService,
     public navCtrl: NavController, public navParams: NavParams, public nav: Nav) {
     this.afAuth.authState.subscribe(data => {
-      this.profileRef = this.afData.list(`person/${data.uid}`);
+      this.profileData = this.owner
+        .getOwnerDetails() //db list
+        .snapshotChanges() //key and value passed
+        .map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val(),
+          }));
+        });
 
       this.carList$ = this.rent
         .getCarList() //db list

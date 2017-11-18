@@ -64,7 +64,7 @@ export class RegisterPage {
 
   sendDataProfile(){
     this.afAuth.authState.subscribe(auth => {
-      this.afData.list(`person/${auth.uid}`).push(this.user)
+      this.afData.object(`person/${auth.uid}`).set(this.user)
       .then(() => {this.nav.setRoot(LoginPage);});
     })
   }
