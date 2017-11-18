@@ -4,10 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { SearchPage } from '../pages/search/search';
-import { ProfilePage } from '../pages/profile/profile';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
-import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 
 @Component({
   templateUrl: 'app.html'

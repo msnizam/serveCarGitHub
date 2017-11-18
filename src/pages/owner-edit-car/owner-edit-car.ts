@@ -1,6 +1,7 @@
 import { CarListService } from './../../services/car-list/car-list.service';
 import { ToastService } from './../../services/toast/toast.service';
 import { Car } from './../../model/car/car.model';
+import { ProfilePage } from '../profile/profile';
 
 import { Component } from '@angular/core';
 import { IonicPage, AlertController, NavController, NavParams } from 'ionic-angular';
@@ -28,14 +29,14 @@ export class OwnerEditCarPage{
   saveCar(car: Car){
     this.ownersCarlist.editCar(car).then(() => {
       this.toast.show('Your changes have been saved!');
-      this.navCtrl.setRoot('ProfilePage');
+      this.navCtrl.setRoot(ProfilePage);
     });
   }
 
   removeCar(car: Car){
     this.ownersCarlist.removeCar(car).then(() => {
       this.toast.show(`${car.model} has been removed!`);
-      this.navCtrl.setRoot('ProfilePage');
+      this.navCtrl.setRoot(ProfilePage);
     });
   }
 

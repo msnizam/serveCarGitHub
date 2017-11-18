@@ -4,6 +4,8 @@ import { CarListService } from './../../services/car-list/car-list.service';
 import { ToastService } from './../../services/toast/toast.service';
 import { Car } from './../../model/car/car.model';
 
+import { ProfilePage } from '../profile/profile';
+
 @IonicPage()
 @Component({
   selector: 'page-owner-add-car',
@@ -32,7 +34,7 @@ export class OwnerAddCarPage {
   addCar(car: Car) {
     this.rent.addCar(car).then(ref => {
       this.toast.show(`${car.make} ${car.model} has been added!`);
-      this.navCtrl.setRoot('ProfilePage', {key: ref.key});
+      this.navCtrl.setRoot(ProfilePage, {key: ref.key});
     });
   }
 

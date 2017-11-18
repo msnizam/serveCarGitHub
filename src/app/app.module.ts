@@ -12,7 +12,6 @@ import { RegisterPage } from '../pages/register/register';
 import { SearchPage } from '../pages/search/search';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { OwnerAddCarPage } from '../pages/owner-add-car/owner-add-car';
-import { OwnerEditCarPage } from '../pages/owner-edit-car/owner-edit-car';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -46,7 +45,7 @@ const FirebaseConfig = {
     SearchPage,
     ResetPasswordPage,
     OwnerAddCarPage,
-    OwnerEditCarPage
+
   ],
   imports: [
     CommonModule,
@@ -68,7 +67,6 @@ const FirebaseConfig = {
     RegisterPage,
     ResetPasswordPage,
     OwnerAddCarPage,
-    OwnerEditCarPage
   ],
   providers: [
     StatusBar,

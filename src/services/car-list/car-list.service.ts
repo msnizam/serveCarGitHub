@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-
 import { Car } from './../../model/car/car.model';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class CarListService {
 
-  private carListRef = this.db.list<Car>('car-list');
-  carRef: Observable<Car[]> = null;
-  userId: string;
+  ownerID: string;
+  carListRef : AngularFireList<Car>;
 
-  constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
-    this.afAuth.authState.subscribe(user => {
-      if(user) this.userId = user.uid
+  constructor(
+    private db: AngularFireDatabase,
+    private afAuth: AngularFireAuth
+  ) {
+    this.afAuth.authState.subscribe(owner => {
+      if(owner) this.ownerID = owner.uid;
+      this.carListRef = this.db.list<Car>(`person/${this.ownerID}/car-list`);
+
     })
   }
 
   getCarList(){
-    if (!this.userId) return;
-    this.carRef = this.carListRef;
-    return this.carRef;
+    return this.carListRef;
   }
 
   addCar(car: Car){
