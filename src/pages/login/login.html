@@ -1,38 +1,26 @@
 <ion-header>
+
   <ion-navbar color="primary">
     <ion-title>Login</ion-title>
   </ion-navbar>
+
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="loginForm">
-      <ion-item [ngClass]="{'error-border':!loginForm.controls.email.valid && loginForm.controls.email.touched}">
-        <ion-label floating>Email Address</ion-label>
-        <ion-input formControlName="email" type="text" [(ngModel)]="user.email"></ion-input>
-      </ion-item>
-      <ion-item *ngIf="loginForm.controls.email.hasError('required') && loginForm.controls.email.touched">
-            <p>Sorry, field email is required!</p>
-      </ion-item>
+  <ion-item>
+    <ion-label floating>Email</ion-label>
+    <ion-input type="text" [(ngModel)]="user.email"></ion-input>
+  </ion-item>
 
-      <ion-item [ngClass]="{'error-border':!loginForm.controls.password.valid && loginForm.controls.password.touched}">
-        <ion-label floating>Password</ion-label>
-        <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
-      </ion-item>
-      <ion-item *ngIf="loginForm.controls.password.hasError('required') && loginForm.controls.password.touched">
-            <p>Sorry, field password is required!</p>
-      </ion-item>
-      <ion-item *ngIf="loginForm.controls.password.hasError('minlength') && loginForm.controls.password.touched">
-          <p>Sorry, minimum password length is 6!</p>
-      </ion-item>
+  <ion-item>
+    <ion-label floating>Password</ion-label>
+    <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+  </ion-item>
 
-      <ion-item>
-      <button ion-button (click)="login(user)">Login</button>
-      </ion-item>
-      <ion-item>
-      <button ion-button color="light" (click)="register()">Register</button>
-      </ion-item>
-      <ion-item>
-      <button ion-button (click)="reset()">Forgot Password</button>
-      </ion-item>
-    </form>
+  <button ion-button (click)="login(user)">Login</button>
+  <button ion-button (click)="register()">Register</button>
+  <div>
+    <button ion-button (click) = "reset()">Forgot Password</button>
+  </div>
+
 </ion-content>

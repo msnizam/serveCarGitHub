@@ -1,14 +1,13 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Add new car</ion-title>
+    <ion-title>Add New Car</ion-title>
   </ion-navbar>
 </ion-header>
-
 
 <ion-content padding>
   <ion-item>
     <ion-label>Type:</ion-label>
-    <ion-select [(ngModel)]="car.type">
+    <ion-select [(ngModel)]="car.type" placeholder="Hatchback">
       <ion-option value="4 Wheels">4 Wheels</ion-option>
       <ion-option value="Coupe">Coupe</ion-option>
       <ion-option value="Hatchback">Hatchback</ion-option>
@@ -23,20 +22,23 @@
 
   <ion-item>
     <ion-label>Make:</ion-label>
-    <ion-select [(ngModel)]="car.make">
+    <ion-select [(ngModel)]="car.make" placeholder="Perodua">
       <ion-option value="Mercedes Benz">Mercedes Benz</ion-option>
       <ion-option value="BMW">BMW</ion-option>
       <ion-option value="Proton">Proton</ion-option>
+      <ion-option value="Perodua">Perodua</ion-option>
     </ion-select>
   </ion-item>
 
   <ion-item>
     <ion-label>Model:</ion-label>
-    <ion-select [(ngModel)]="car.model">
+    <ion-select [(ngModel)]="car.model" placeholder="Myvi">
       <ion-option value="318i">318i</ion-option>
       <ion-option value="M3">M3</ion-option>
       <ion-option value="AMG GT">AMG GT</ion-option>
       <ion-option value="X6">X6</ion-option>
+      <ion-option value="Myvi">Myvi</ion-option>
+      <ion-option value="Wira">Wira</ion-option>
     </ion-select>
   </ion-item>
 
@@ -52,6 +54,16 @@
   <ion-item>
     <ion-label>Year:</ion-label>
     <ion-input [(ngModel)]="car.year" type="number" placeholder="2015"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Plate:</ion-label>
+    <ion-input [(ngModel)]="car.plate" placeholder="ABC 1234"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Rental Price (per hour):</ion-label>
+    <ion-input [(ngModel)]="car.rentPrice" type="number" placeholder="5.00"></ion-input>
   </ion-item>
 
   <button ion-button block clear (click)="addCar(car)">Add</button>

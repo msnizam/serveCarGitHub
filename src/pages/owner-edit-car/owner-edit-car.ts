@@ -1,8 +1,7 @@
 import { CarListService } from './../../services/car-list/car-list.service';
 import { ToastService } from './../../services/toast/toast.service';
-import { Car } from './../../model/car/car.model';
+import { Car } from './../../models/car/car.model';
 import { ProfilePage } from '../profile/profile';
-
 import { Component } from '@angular/core';
 import { IonicPage, AlertController, NavController, NavParams } from 'ionic-angular';
 
@@ -12,7 +11,7 @@ import { IonicPage, AlertController, NavController, NavParams } from 'ionic-angu
   templateUrl: 'owner-edit-car.html',
 })
 export class OwnerEditCarPage{
-  car: Car;//sgdfagg
+  car: Car;
 
   constructor(
     public navCtrl: NavController,

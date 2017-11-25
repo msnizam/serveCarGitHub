@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, AlertController, IonicPage, NavParams } from 'ionic-angular';
+import firebase from 'firebase';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
+
+
+import { CarListService } from './../../services/car-list/car-list.service';
+import { Car } from './../../models/car/car.model';
 
 @IonicPage()
 @Component({
@@ -7,12 +14,27 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'search.html',
 })
 export class SearchPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  //carRef: firebase.database.Reference;
+  carList$: Observable<Car[]>;
+  constructor(
+    private rent: CarListService,
+    private afAuth: AngularFireAuth,
+    public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SearchPage');
+    //this.carRef = firebase.database()ref(`Car-Rental/Car-List`);
+    this.afAuth.authState.subscribe(res => {
+      this.carList$ = this.rent
+      .getCarList() //db list
+      .snapshotChanges() //key and value passed
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key,
+          ...c.payload.val(),
+        }));
+      });
+    })
   }
 
 }

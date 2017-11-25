@@ -5,10 +5,10 @@
   </button>
 
   <ion-buttons end>
-     <button ion-button (click)="logout()">
-       <ion-icon name="logout">Logout</ion-icon>
-     </button>
-   </ion-buttons>
+    <button block clear (click)="logout()" ion-button>
+      Logout
+    </button>
+  </ion-buttons>
  </ion-navbar>
 </ion-header>
 
@@ -16,8 +16,8 @@
 
   <div padding>
     <ion-segment [(ngModel)]="profile">
-      <ion-segment-button value="owner">OWNER</ion-segment-button>
-      <ion-segment-button value="vehicle">VEHICLE LIST</ion-segment-button>
+      <ion-segment-button value="owner">ABOUT OWNER</ion-segment-button>
+      <ion-segment-button value="car">CAR LIST</ion-segment-button>
     </ion-segment>
   </div>
 
@@ -26,23 +26,32 @@
       <ion-list-header>
           Owner
       </ion-list-header>
-        <ion-item *ngFor="let profile of profileData$ | async">
-          <p>{{profile.username}}</p>
-          <p>{{profile.fullname}}</p>
-          <p>{{profile.email}}</p>
-          <p>{{profile.phone}}</p>
+        <ion-item>
+          <div>User Name    : {{myPerson.username}}</div>
+          <div>Full Name    : {{myPerson.fullname}}</div>
+          <div>Phone Number : {{myPerson.phone}}</div>
+          <div>Email        : {{myPerson.email}}</div>
+          <button ion-button detail-push navPush="OwnerEditProfilePage" [navParams]="{owner: owner}">Update</button>
         </ion-item>
     </ion-list>
 
-    <ion-list *ngSwitchCase="'vehicle'">
-      <ion-list-header>
-          Cars
-      </ion-list-header>
-        <ion-item *ngFor="let car of carList$ | async"
-        detail-push navPush="OwnerEditCarPage" [navParams]="{car: car}">
-          {{car.model}}
+    <ion-list *ngSwitchCase="'car'">
+    <!--  <ion-list-header> Cars </ion-list-header> -->
+        <ion-item *ngFor="let car of carList$ | async">
+          <h2>{{car.make}} {{car.model}}</h2>
+          <p>{{car.plate}}</p>
+      <!--    <button ion-button clear item-end (click)="openModal()">View</button>
+      -->    <button ion-button clear item-end navPush="OwnerViewCarPage"
+            [navParams]="{car: car}">View</button>
+          <button ion-button clear item-end navPush="OwnerEditCarPage"
+            [navParams]="{car: car}">Edit</button>
         </ion-item>
-      <button ion-button (click)="addCar()">Add Car</button>
+
+        <ion-buttons>
+          <button block clear navPush="OwnerAddCarPage" ion-button>
+            Add New Car
+          </button>
+        </ion-buttons>
     </ion-list>
 
   </div>

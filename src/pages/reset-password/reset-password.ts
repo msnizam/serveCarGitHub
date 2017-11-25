@@ -23,7 +23,7 @@ export class ResetPasswordPage {
     .then(() => {
         let loader = this.loadingCtrl.create({
           content: `Your Password Has Been Reset `,
-          duration: 1500
+          duration: 1000
         });
         loader.present();
         this.nav.setRoot(LoginPage);

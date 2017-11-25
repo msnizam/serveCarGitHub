@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from "../../model/user";
+import { User } from './../../models/owner/owner.model';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { LoadingController } from 'ionic-angular';
 
-import { LoginPage } from '../login/login';
+import { CreateProfilePage } from '../create-profile/create-profile';
 
 @IonicPage()
 @Component({
@@ -19,17 +18,18 @@ export class RegisterPage {
 
   registerForm: FormGroup;
 
-  constructor(public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, private afData: AngularFireDatabase, public nav: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
+    private afAuth: AngularFireAuth,
+    public formBuilder: FormBuilder) {
 
-    this.nav = nav;
-
-       this.registerForm = formBuilder.group({
-           fullname: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
-           username: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(20)])],
-           email: ['', Validators.compose([Validators.required, Validators.pattern('[A-Za-z0-9._%+-]{2,}@[a-zA-Z-_.]{2,}[.]{1}[a-zA-Z]{2,}')])],
-           phone: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
-           password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
-       });
+      this.registerForm = formBuilder.group({
+        email: ['', Validators.compose([Validators.required, Validators.pattern('[A-Za-z0-9._%+-]{2,}@[a-zA-Z-_.]{2,}[.]{1}[a-zA-Z]{2,}')])],
+        password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+      })
   }
 
 
@@ -46,27 +46,20 @@ export class RegisterPage {
   sendEmailVerification() {
     try{
       this.afAuth.authState.subscribe(auth => {
-          auth.sendEmailVerification()
+          /*auth.sendEmailVerification()
           .then(() => {
             let loader = this.loadingCtrl.create({
               content: `Email Link Has Been Sent. Please Check!`,
-              duration: 1500
+              duration: 1000
             });
-            loader.present();
-            this.sendDataProfile()
-          })
+            loader.present();*/
+            this.navCtrl.setRoot(CreateProfilePage);
+          //})
         });
     }
     catch(e){
       console.error(e);
     }
-  }
-
-  sendDataProfile(){
-    this.afAuth.authState.subscribe(auth => {
-      this.afData.object(`person/${auth.uid}`).set(this.user)
-      .then(() => {this.nav.setRoot(LoginPage);});
-    })
   }
 /*presentConfirm() {
 let alert = this.actionSheetCtrl.create({

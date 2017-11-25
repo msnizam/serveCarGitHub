@@ -1,0 +1,43 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Create Profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="profileForm">
+  <ion-item [ngClass]="{'error-border':!profileForm.controls.fullname.valid && profileForm.controls.fullname.touched}">
+    <ion-label floating>Full Name</ion-label>
+    <ion-input formControlName="fullname" type="text" [(ngModel)]="owner.fullname"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="profileForm.controls.fullname.hasError('required') && profileForm.controls.fullname.touched">
+        <p>Sorry, field Fullname is required!</p>
+  </ion-item>
+
+  <ion-item [ngClass]="{'error-border':!profileForm.controls.username.valid && profileForm.controls.username.touched}">
+    <ion-label floating>Username</ion-label>
+    <ion-input formControlName="username" type="text" [(ngModel)]="owner.username"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="profileForm.controls.username.hasError('required') && profileForm.controls.username.touched">
+      <p>Sorry, field username is required!</p>
+  </ion-item>
+  <ion-item *ngIf="profileForm.controls.username.hasError('minlength') && profileForm.controls.username.touched">
+      <p>Sorry, minimum username length is 8!</p>
+  </ion-item>
+  <ion-item *ngIf="profileForm.controls.username.hasError('maxlength') && profileForm.controls.username.touched">
+      <p>Sorry, maximum username length is 30!</p>
+  </ion-item>
+
+  <ion-item [ngClass]="{'error-border':!profileForm.controls.phone.valid && profileForm.controls.phone.touched}">
+    <ion-label floating>Phone Number</ion-label>
+    <ion-input formControlName="phone" type="number" [(ngModel)]="owner.phone"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="profileForm.controls.phone.hasError('required') && profileForm.controls.phone.touched">
+        <p>Sorry, field phone number is required!</p>
+  </ion-item>
+
+  <button ion-button color="light" (click)="create(owner)">Register</button>
+</form>

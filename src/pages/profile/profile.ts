@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
-import { Nav, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, AlertController, IonicPage, ModalController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/debounceTime';
+import firebase from 'firebase';
 
 import { HomePage } from '../home/home';
-import { OwnerAddCarPage } from '../owner-add-car/owner-add-car';
-import { OwnerEditCarPage } from '../owner-edit-car/owner-edit-car';
 import { CarListService } from './../../services/car-list/car-list.service';
 import { OwnerDetailsService } from './../../services/owner-details/owner-details.service';
-import { User } from "../../model/user";
-import { Car } from './../../model/car/car.model';
+import { Car } from './../../models/car/car.model';
+import { Owner } from './../../models/owner/owner.model';
 
 @IonicPage()
 @Component({
@@ -18,44 +17,89 @@ import { Car } from './../../model/car/car.model';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  //user = {} as User;
-  profileData$: observable<User[]>;
+  personRef: firebase.database.Reference;
+  carRef: firebase.database.Reference;
+  plateRef: firebase.database.Reference;
   carList$: Observable<Car[]>;
+  public myPerson = {} as Owner;
 
-  constructor(private afAuth: AngularFireAuth,
-    private afData: AngularFireDatabase, private rent: CarListService, private owner: OwnerDetailsService,
-    public navCtrl: NavController, public navParams: NavParams, public nav: Nav) {
-    this.afAuth.authState.subscribe(data => {
-      this.profileData = this.owner
-        .getOwnerDetails() //db list
-        .snapshotChanges() //key and value passed
-        .map(changes => {
-          return changes.map(c => ({
-            key: c.payload.key,
-            ...c.payload.val(),
-          }));
-        });
+  public plate = "";
+  public plateNum = "";
+  public email = "";
 
-      this.carList$ = this.rent
-        .getCarList() //db list
-        .snapshotChanges() //key and value passed
-        .map(changes => {
-          return changes.map(c => ({
-            key: c.payload.key,
-            ...c.payload.val(),
-          }));
-        });
-    })
+  constructor(
+    public navCtrl: NavController,
+    private afAuth: AngularFireAuth,
+    private rent: CarListService,
+    public alertCtrl: AlertController,
+    private modal: ModalController) {
+
+
+      this.afAuth.authState.subscribe((res) => {
+      })
+
   }
 
-  async addCar(){
-    this.navCtrl.push(OwnerAddCarPage);
+  ionViewDidLoad(){
+    this.afAuth.authState.subscribe(res => {
+      this.personRef =  firebase.database().ref(`Car-Rental/Owner/${res.uid}`);
+      this.personRef.on('value', snapshot => {
+          /*snapshot.forEach(childSnapshot => {
+          this.email = childSnapshot.child("/email/").val();
+        });*/
+          this.myPerson = snapshot.val();
+      });
+
+      /*if(res.email == this.email){
+          this.plateRef =  firebase.database().ref(`Car-Rental/Owner/Plate-Number/${res.uid}`);
+          this.carRef =  firebase.database().ref(`Car-Rental/Car-List/${res.uid}`);
+          this.carRef.once('value', snapshot => {
+            snapshot.forEach(childSnapshot => {
+          this.plate = childSnapshot.child("/plate/").val();
+          })
+        })
+          this.plateRef.once('value', snapshot => {
+            snapshot.forEach(childSnapshot => {
+          this.plateNum = childSnapshot.child("/plateNum/").val();
+          })
+        })*/
+          //if(this.plate == this.plateNum){
+              this.carList$ = this.rent
+              .getCarList() //db list
+              .snapshotChanges() //key and value passed
+              .map(changes => {
+                return changes.map(c => ({
+                  key: c.payload.key,
+                  ...c.payload.val(),
+                }));
+              });
+            //}
+    //}
+  })
+}
+
+  openModal(){
+    const myModal = this.modal.create('OwnerViewCarPage')
+    myModal.present();
   }
 
-  async logout(){
-    this.afAuth.auth.signOut().then(() => {
-       console.log("Logout successful");
-       this.navCtrl.setRoot(HomePage);
+  async confirmLogout(){
+    return this.afAuth.auth.signOut().then(() => {
+      this.navCtrl.setRoot(HomePage);
     });
-    }
+  }
+
+  logout(){
+    let confirm = this.alertCtrl.create({
+      title: `Logout`,
+      message: 'Are you sure to log out your account?',
+      buttons: [{
+        text: "Cancel",
+      },{
+        text: "Logout",
+        handler: () => { this.confirmLogout() }
+      }]
+    });
+    confirm.present();
+  }
 }

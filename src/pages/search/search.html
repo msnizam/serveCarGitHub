@@ -9,4 +9,11 @@
 
 <ion-content padding>
  <ion-searchbar (ionInput)="getItems()"></ion-searchbar>
+ <ion-item *ngFor="let car of carList$ | async">
+   <h2>{{car.make}} {{car.model}}</h2>
+   <p>{{car.plate}}</p>
+<!--    <button ion-button clear item-end (click)="openModal()">View</button>
+-->    <button ion-button clear item-end navPush="UserViewCarPage"
+     [navParams]="{car: car}">View</button>
+ </ion-item>
 </ion-content>

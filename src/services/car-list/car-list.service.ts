@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Car } from './../../model/car/car.model';
+import { Car } from './../../models/car/car.model';
 
 @Injectable()
 export class CarListService {
 
   ownerID: string;
-  carListRef : AngularFireList<Car>;
+  carListRef: AngularFireList<Car>
 
   constructor(
     private db: AngularFireDatabase,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
   ) {
     this.afAuth.authState.subscribe(owner => {
       if(owner) this.ownerID = owner.uid;
-      this.carListRef = this.db.list<Car>(`person/${this.ownerID}/car-list`);
-
+      this.carListRef = this.db.list(`Car-Rental/Car-List`);
     })
   }
 

@@ -9,9 +9,11 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { RegisterPage } from '../pages/register/register';
+import { CreateProfilePage } from '../pages/create-profile/create-profile';
 import { SearchPage } from '../pages/search/search';
+import { AdminPage } from '../pages/admin/admin';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
-import { OwnerAddCarPage } from '../pages/owner-add-car/owner-add-car';
+import { UserViewCarPage } from '../pages/user-view-car/user-view-car';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,8 +21,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AuthorizeProvider } from '../providers/authorize/authorize';
 
+import { PlatNumberService } from './../services/car-list/plate-number.service';
 import { CarListService } from './../services/car-list/car-list.service';
 import { OwnerDetailsService } from './../services/owner-details/owner-details.service';
 import { ToastService } from './../services/toast/toast.service';
@@ -45,8 +47,8 @@ const FirebaseConfig = {
     RegisterPage,
     SearchPage,
     ResetPasswordPage,
-    OwnerAddCarPage,
-
+    AdminPage,
+    CreateProfilePage,
   ],
   imports: [
     CommonModule,
@@ -67,16 +69,17 @@ const FirebaseConfig = {
     SearchPage,
     RegisterPage,
     ResetPasswordPage,
-    OwnerAddCarPage,
+    AdminPage,
+    CreateProfilePage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthorizeProvider,
     CarListService,
     ToastService,
     OwnerDetailsService,
+    PlatNumberService
   ]
 })
 export class AppModule {}

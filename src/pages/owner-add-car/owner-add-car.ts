@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { PlatNumberService } from './../../services/car-list/plate-number.service';
 import { CarListService } from './../../services/car-list/car-list.service';
 import { ToastService } from './../../services/toast/toast.service';
-import { Car } from './../../model/car/car.model';
-
+import { Car } from './../../models/car/car.model';
 import { ProfilePage } from '../profile/profile';
 
 @IonicPage()
@@ -17,13 +19,19 @@ export class OwnerAddCarPage {
     make: '',
     model: '',
     transmission: '',
-    year: undefined
+    year: undefined,
+    plate: '',
+    rentPrice: undefined
   }
+    public plateNum = '';
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private plateRef: PlatNumberService,
     private rent: CarListService,
+    private afData: AngularFireDatabase,
+    private afAuth: AngularFireAuth,
     private toast: ToastService,
   ) {}
 
@@ -32,10 +40,18 @@ export class OwnerAddCarPage {
   }
 
   addCar(car: Car) {
-    this.rent.addCar(car).then(ref => {
-      this.toast.show(`${car.make} ${car.model} has been added!`);
-      this.navCtrl.setRoot(ProfilePage, {key: ref.key});
-    });
-  }
 
+    this.afAuth.authState.subscribe(user => {
+          this.plateNum = car.plate;
+          this.afData.list(`Car-Rental/Owner/${user.uid}/Plate-Number`)
+          .push({
+            plateNum: this.plateNum
+          }).then(() => {
+            this.afData.list(`Car-Rental/Car-List`).push(car).then(ref => {
+              this.toast.show(`${car.make} ${car.model} has been added!`);
+              this.navCtrl.setRoot(ProfilePage, {key: ref.key});
+            });
+          });
+      })
+    }
 }
