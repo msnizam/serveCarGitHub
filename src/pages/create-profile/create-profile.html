@@ -31,6 +31,14 @@
       <p>Sorry, maximum username length is 30!</p>
   </ion-item>
 
+  <ion-item [ngClass]="{'error-border':!profileForm.controls.status.valid && profileForm.controls.status.touched}">
+    <ion-label floating>Status</ion-label>
+    <ion-select formControlName="status" [(ngModel)]="owner.status" placeholder="status">
+      <ion-option value="User">User</ion-option>
+      <ion-option value="Owner">Owner</ion-option>
+    </ion-select>
+  </ion-item>
+
   <ion-item [ngClass]="{'error-border':!profileForm.controls.phone.valid && profileForm.controls.phone.touched}">
     <ion-label floating>Phone Number</ion-label>
     <ion-input formControlName="phone" type="number" [(ngModel)]="owner.phone"></ion-input>
@@ -39,5 +47,5 @@
         <p>Sorry, field phone number is required!</p>
   </ion-item>
 
-  <button ion-button color="light" (click)="create(owner)">Register</button>
+  <button ion-button color="light" (click)="create(owner)">Create Profile</button>
 </form>

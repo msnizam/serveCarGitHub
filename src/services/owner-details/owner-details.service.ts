@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Owner } from './../../models/owner/owner.model';
+import firebase from 'firebase';
 
 @Injectable()
 export class OwnerDetailsService {
 
   //private ownerDetailsRef = this.db.list<Owner>('owner-details');
   ownerID: string;
-  ownerDetailsRef: AngularFireObject<Owner>
+  ownerDetailsRef: firebase.database.Reference;
   constructor(
-    private db: AngularFireDatabase,
     private afAuth: AngularFireAuth,
   ) {
     this.afAuth.authState.subscribe(owner => {
       if(owner) this.ownerID = owner.uid;
-      this.ownerDetailsRef = this.db.object(`Car-Rental/Owner/${this.ownerID}`);
+      this.ownerDetailsRef = firebase.database().ref(`Car-Rental/User/${this.ownerID}`);
     })
   }
 
@@ -23,7 +22,7 @@ export class OwnerDetailsService {
     return this.ownerDetailsRef;
   }
 
-  regOwner(owner: Owner){
-    return this.ownerDetailsRef.set(owner);
+  editOwner(owner: Owner){
+    return this.ownerDetailsRef.update(owner);
   }
 }

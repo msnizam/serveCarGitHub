@@ -2,10 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { MenuController } from 'ionic-angular';
 
-import { SearchPage } from '../pages/search/search';
+import { SearchPage } from '../pages/user/search/search';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
+import { OwnerViewRequestPage } from '../pages/owner/owner-view-request/owner-view-request';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,12 +17,18 @@ export class MyApp {
 
   rootPage:any = LoginPage;
 
-  pages: Array<{title: string, component: any}>;
+  pagesO: Array<{title: string, component: any}>;
+  pagesU: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public menuCtrl: MenuController, public splashScreen: SplashScreen) {
     this.initializeApp();
 
-    this.pages = [
+    this.pagesO = [
+      { title: 'Search', component: SearchPage },
+      { title: 'User Request', component: OwnerViewRequestPage }
+    ];
+
+    this.pagesU = [
       { title: 'Search', component: SearchPage }
     ];
 
@@ -34,7 +42,19 @@ export class MyApp {
   }
 
   openPage(page) {
-    this.nav.setRoot(page.component);
+    this.nav.push(page.component);
   }
+
+  openMenu() {
+   this.menuCtrl.open();
+ }
+
+ closeMenu() {
+   this.menuCtrl.close();
+ }
+
+ toggleMenu() {
+   this.menuCtrl.toggle();
+ }
 
 }

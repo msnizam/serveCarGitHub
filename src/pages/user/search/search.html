@@ -1,0 +1,19 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-title>search</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+ <ion-searchbar (ionInput)="getCarList($event)"></ion-searchbar>
+ <ion-item *ngFor="let car of carList">
+   <h2>{{car.make}} {{car.model}}</h2>
+   <p>Transmission: {{car.transmission}}</p>
+   <p>RM {{car.rentPrice}} / Hour</p>
+   <button ion-button clear item-end (click)=viewCar(car) >View</button>
+ </ion-item>
+</ion-content>

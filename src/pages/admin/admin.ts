@@ -20,13 +20,6 @@ export class AdminPage {
 
   constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
     this.adminRef = firebase.database().ref(`Car-Rental/Owner`);
-    this.afAuth.authState.subscribe(admin => {
-      //this.password = admin.password;
-      this.adminRef.set({
-        email: admin.email,
-        //password: this.password
-      });
-    })
   }
 
   ionViewDidLoad() {

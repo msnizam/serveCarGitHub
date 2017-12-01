@@ -1,0 +1,46 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Book A Car</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <h2>{{car.make}} {{car.model}}</h2>
+    <p>{{car.plate}}</p>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Full Name</ion-label>
+    <ion-input type="text" [(ngModel)]= "driver.name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>IC Number</ion-label>
+    <ion-input type="number" [(ngModel)]= "driver.ic"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Phone Number</ion-label>
+    <ion-input type="number" [(ngModel)]= "driver.phone"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Address</ion-label>
+    <ion-input type="text" [(ngModel)]= "driver.address"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Date To Book</ion-label>
+    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="driver.dateBook"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Time Limit: </ion-label>
+    <ion-input type="number" [(ngModel)]= "driver.time"></ion-input>
+  </ion-item>
+
+  <button ion-button color="blue" (click)="bookCar(driver)">Start Book</button>
+</ion-content>

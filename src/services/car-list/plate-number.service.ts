@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { PlateNumber } from './../../models/car/car.model';
+import firebase from 'firebase';
 
 @Injectable()
 export class PlatNumberService {
@@ -15,15 +16,11 @@ export class PlatNumberService {
   ) {
     this.afAuth.authState.subscribe(plate => {
       if(plate) this.plateID = plate.uid;
-      this.plateListRef = this.db.list(`Car-Rental/Owner/${this.plateID}/Plate-Number`);
+      this.plateListRef = this.db.list(`Car-Rental/User/${this.plateID}/Plate-Number`);
     })
   }
 
   getPlate(){
     return this.plateListRef;
-  }
-
-  addPlate(plateNo: PlateNumber){
-    return this.plateListRef.push(plateNo);
   }
 }

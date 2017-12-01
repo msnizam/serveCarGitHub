@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Edit Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item>
+    <ion-label>User Name:</ion-label>
+    <ion-input [(ngModel)]="owner.username"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Full Name:</ion-label>
+    <ion-input [(ngModel)]="owner.fullname"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Phone Number:</ion-label>
+    <ion-input [(ngModel)]="owner.phone"></ion-input>
+  </ion-item>
+
+  <button ion-button block clear (click)="editProfile(owner)">Save</button>
+</ion-content>

@@ -1,0 +1,17 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Check Availability</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-label> Availability</ion-label>
+  <ion-select [(ngModel)]="car.availability">
+    <ion-option value="Enabled">Enabled</ion-option>
+    <ion-option value="Disabled">Disabled</ion-option>
+  </ion-select>
+  <button ion-button (click) = "available(car)">SAVE</button>
+</ion-content>

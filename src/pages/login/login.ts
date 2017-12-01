@@ -3,12 +3,15 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { User } from './../../models/owner/owner.model';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { LoadingController } from 'ionic-angular';
+import firebase from 'firebase';
 
-
-import { ProfilePage } from '../profile/profile';
+import { OwnerProfilePage } from '../owner/owner-profile/owner-profile';
+import { UserProfilePage } from '../user/user-profile/user-profile';
 import { AdminPage } from '../admin/admin';
 import { RegisterPage } from '../register/register';
 import { ResetPasswordPage } from '../reset-password/reset-password';
+import { OwnerDetailsService } from './../../services/owner-details/owner-details.service';
+import { Owner } from './../../models/owner/owner.model';
 
 @IonicPage()
 @Component({
@@ -16,44 +19,67 @@ import { ResetPasswordPage } from '../reset-password/reset-password';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  owner: Owner = {
+    fullname: '',
+    username: '',
+    phone: undefined,
+    email: '',
+    status: '',
+  }
+  adminRef: firebase.database.Reference = firebase.database().ref(`Car-Rental/User`);
+  userRef: firebase.database.Reference;
   user = {} as User;
+  public userStatus = '';
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
+    private ownerData :OwnerDetailsService,
     private alertCtrl: AlertController,
     private afAuth: AngularFireAuth) {
-  }
+
+   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
   }
 
   async login(user: User){
-    try{
-      this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
+        this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
       .then((person) => {
-        if(user.email == 'admin@mail.com' && user.password == 'admin123'){
-          if(person.email == user.email && person.password == user.password)
-          this.navCtrl.setRoot(AdminPage);
+        this.userRef = firebase.database().ref(`Car-Rental/User/${person.uid}`)
+        this.userRef.once('value', snapshot => {
+            this.userStatus = snapshot.child("/status/").val();
+        }).then(() => {
+          if(user.email == 'admin@mail.com' && user.password == 'admin123'){
+            if(person.email == user.email && person.password == user.password){
+            this.adminRef.set({
+              email: user.email,
+              password: user.password
+            });
+            this.navCtrl.setRoot(AdminPage);
+            }
+          }
+          else{
+          /*if(person.emailVerified){
+            let loader = this.loadingCtrl.create({
+              content: `Welcome ${person.email} `,
+              duration: 1500
+            });
+          loader.present();*/
+          if(this.userStatus == "Owner"){
+            this.navCtrl.setRoot(OwnerProfilePage);
+          }
+          else if(this.userStatus == "User"){
+            this.navCtrl.setRoot(UserProfilePage);
+          }
+
+          /*}
+          else{
+              this.presentAlert()
+          }*/
         }
-        else{
-        /*if(person.emailVerified){
-          let loader = this.loadingCtrl.create({
-            content: `Welcome ${person.email} `,
-            duration: 1500
-          });
-        loader.present();*/
-        this.navCtrl.setRoot(ProfilePage);
-        /*}
-        else{
-            this.presentAlert()
-        }*/
-      }
+        })
     });
-    }catch(e){
-      console.log(e);
-    }
   }
 
   register(){

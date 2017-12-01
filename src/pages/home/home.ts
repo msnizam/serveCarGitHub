@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from "ionic-angular";
 
 import { LoginPage } from '../login/login';
-import { ProfilePage } from '../profile/profile';
 import { RegisterPage } from '../register/register';
 
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Car } from './../../models/car/car.model';
+import firebase from 'firebase';
 
 @Injectable()
 export class CarListService {

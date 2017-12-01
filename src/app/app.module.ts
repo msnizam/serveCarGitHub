@@ -7,13 +7,15 @@ import { CommonModule } from '@angular/common';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
-import { ProfilePage } from '../pages/profile/profile';
+import { OwnerProfilePage } from '../pages/owner/owner-profile/owner-profile';
+import { UserProfilePage } from '../pages/user/user-profile/user-profile';
 import { RegisterPage } from '../pages/register/register';
 import { CreateProfilePage } from '../pages/create-profile/create-profile';
-import { SearchPage } from '../pages/search/search';
+import { SearchPage } from '../pages/user/search/search';
 import { AdminPage } from '../pages/admin/admin';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
-import { UserViewCarPage } from '../pages/user-view-car/user-view-car';
+import { UserViewCarPage } from '../pages/user/user-view-car/user-view-car';
+import { OwnerViewRequestPage } from '../pages/owner/owner-view-request/owner-view-request';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -24,6 +26,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { PlatNumberService } from './../services/car-list/plate-number.service';
 import { CarListService } from './../services/car-list/car-list.service';
+import { CarBookService } from './../services/car-list/car-book.service';
 import { OwnerDetailsService } from './../services/owner-details/owner-details.service';
 import { ToastService } from './../services/toast/toast.service';
 
@@ -43,12 +46,14 @@ const FirebaseConfig = {
     ContactPage,
     HomePage,
     LoginPage,
-    ProfilePage,
+    UserProfilePage,
+    OwnerProfilePage,
     RegisterPage,
     SearchPage,
     ResetPasswordPage,
     AdminPage,
     CreateProfilePage,
+    OwnerViewRequestPage,
   ],
   imports: [
     CommonModule,
@@ -64,13 +69,15 @@ const FirebaseConfig = {
     ContactPage,
     HomePage,
     LoginPage,
-    ProfilePage,
+    UserProfilePage,
+    OwnerProfilePage,
     RegisterPage,
     SearchPage,
     RegisterPage,
     ResetPasswordPage,
     AdminPage,
     CreateProfilePage,
+    OwnerViewRequestPage
   ],
   providers: [
     StatusBar,
@@ -79,7 +86,8 @@ const FirebaseConfig = {
     CarListService,
     ToastService,
     OwnerDetailsService,
-    PlatNumberService
+    PlatNumberService,
+    CarBookService,
   ]
 })
 export class AppModule {}

@@ -8,7 +8,6 @@ import { Owner } from './../../models/owner/owner.model';
 import { OwnerDetailsService } from './../../services/owner-details/owner-details.service';
 
 import { LoginPage } from '../login/login';
-import { ProfilePage } from '../profile/profile';
 
 @IonicPage()
 @Component({
@@ -27,18 +26,21 @@ export class CreateProfilePage {
        this.profileForm = formBuilder.group({
            fullname: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
            username: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(20)])],
+           status: [''],
            phone: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])]
        });
   }
 
   create(owner: Owner) {
     this.afAuth.authState.subscribe(user => {
-      this.afData.object(`Car-Rental/Owner/${user.uid}`).set({
+      this.owner.getOwnerDetails().set({
         fullname : owner.fullname,
         username : owner.username,
         phone : owner.phone,
-        email: user.email }).then(ref => {
-        this.nav.setRoot(ProfilePage);
+        status: owner.status,
+        email: user.email
+        }).then(ref => {
+        this.nav.setRoot(LoginPage);
       });
   })
 }

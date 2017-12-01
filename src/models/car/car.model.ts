@@ -7,8 +7,10 @@ export interface Car{
   year: number;
   plate: string;
   rentPrice: number;
+  availability: string;
 }
 
 export interface PlateNumber{
+  key?: string;
   plateNum:string;
 }

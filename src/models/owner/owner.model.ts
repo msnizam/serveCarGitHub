@@ -3,6 +3,7 @@ export interface Owner{
   fullname: string;
   username: string;
   email: string;
+  status: string;
   phone: number;
 }
 export interface User{
