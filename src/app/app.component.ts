@@ -8,6 +8,7 @@ import { SearchPage } from '../pages/user/search/search';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { OwnerViewRequestPage } from '../pages/owner/owner-view-request/owner-view-request';
+import { UserViewRequestPage } from '../pages/user/user-view-request/user-view-request';
 
 @Component({
   templateUrl: 'app.html'
@@ -29,7 +30,8 @@ export class MyApp {
     ];
 
     this.pagesU = [
-      { title: 'Search', component: SearchPage }
+      { title: 'Search', component: SearchPage },
+      { title: 'Car Book Result', component: UserViewRequestPage }
     ];
 
   }

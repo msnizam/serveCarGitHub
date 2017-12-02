@@ -1,0 +1,13 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Dear Mr/Mrs. {{book.username}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <div>Your Car Booking Request For {{book.ownerPlate}} on </div>
+  <div>{{book.dateBook}} Has Been Accepted. </div>
+  <button ion-button (click) = "back()">HOME</button>
+</ion-content>

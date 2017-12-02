@@ -16,6 +16,7 @@ import { AdminPage } from '../pages/admin/admin';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { UserViewCarPage } from '../pages/user/user-view-car/user-view-car';
 import { OwnerViewRequestPage } from '../pages/owner/owner-view-request/owner-view-request';
+import { UserViewRequestPage } from '../pages/user/user-view-request/user-view-request';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -27,6 +28,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { PlatNumberService } from './../services/car-list/plate-number.service';
 import { CarListService } from './../services/car-list/car-list.service';
 import { CarBookService } from './../services/car-list/car-book.service';
+import { CarStatusService } from './../services/car-list/car-status.service';
 import { OwnerDetailsService } from './../services/owner-details/owner-details.service';
 import { ToastService } from './../services/toast/toast.service';
 
@@ -54,6 +56,7 @@ const FirebaseConfig = {
     AdminPage,
     CreateProfilePage,
     OwnerViewRequestPage,
+    UserViewRequestPage
   ],
   imports: [
     CommonModule,
@@ -77,7 +80,8 @@ const FirebaseConfig = {
     ResetPasswordPage,
     AdminPage,
     CreateProfilePage,
-    OwnerViewRequestPage
+    OwnerViewRequestPage,
+    UserViewRequestPage
   ],
   providers: [
     StatusBar,
@@ -88,6 +92,7 @@ const FirebaseConfig = {
     OwnerDetailsService,
     PlatNumberService,
     CarBookService,
+    CarStatusService,
   ]
 })
 export class AppModule {}

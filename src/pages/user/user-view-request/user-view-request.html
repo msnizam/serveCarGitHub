@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Car Booking Request</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item *ngFor="let book of bookAcceptList | async">
+    <div>Book Request For {{book.ownerPlate}} Has Been Accepted</div>
+    <button ion-button clear item-end (click) ="viewBookAccept(book)">View</button>
+  </ion-item>
+  <ion-item *ngFor="let book of bookRejectList | async">
+    <div>Book Request For {{book.ownerPlate}} Has Been Rejected</div>
+    <button ion-button clear item-end (click) ="viewBookReject(book)">View</button>
+  </ion-item>
+</ion-content>

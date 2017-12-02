@@ -45,7 +45,7 @@ export class OwnerViewRequestPage {
       });
   }
   async viewBookList(driver: Driver){
-    this.navCtrl.push("OwnerViewBookCarPage", { driver: driver });
+    this.navCtrl.push("OwnerViewBookCarPage", {key: driver.key, driver: driver });
   }
 
 }

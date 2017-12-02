@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the OwnerRejectBookPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Driver } from './../../../models/driver/driver.model';
+import { Reject } from './../../../models/owner/owner.model';
+import { CarStatusService } from './../../../services/car-list/car-status.service';
+import { OwnerProfilePage } from '../../owner/owner-profile/owner-profile';
 
 @IonicPage()
 @Component({
@@ -14,12 +11,44 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'owner-reject-book.html',
 })
 export class OwnerRejectBookPage {
+  driver: Driver = {
+    ownerPlate: '',
+    name: '',
+    username: '',
+    ic: undefined,
+    phone: undefined,
+    address: '',
+    dateBook: '',
+    status: '',
+    time: undefined
+  }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  rejectBook: Reject = {
+    title: '',
+    des: '',
+    ownerPlate: '',
+    username: '',
+    dateBook: ''
+  }
+  public bookKey: '';
+  constructor(public navCtrl: NavController, private bookStatusRef: CarStatusService, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OwnerRejectBookPage');
+    this.driver = this.navParams.get('driver');
+    this.bookKey = this.navParams.get('key');
+  }
+
+  async sendResult(rejectBook: Reject){
+    this.bookStatusRef.getBookRejectList().push({
+      title: rejectBook.title,
+      des: rejectBook.des,
+      ownerPlate: this.driver.ownerPlate,
+      username: this.driver.username,
+      dateBook: this.driver.dateBook,
+    }).then(() => {
+      this.navCtrl.setRoot(OwnerProfilePage, {key: this.bookKey});
+    })
   }
 
 }

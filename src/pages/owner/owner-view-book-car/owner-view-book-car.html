@@ -12,6 +12,11 @@
       <ion-item>Phone Number: {{driver.phone}}</ion-item>
       <ion-item>Address: {{driver.address}}</ion-item>
       <ion-item>Date: {{driver.dateBook}}</ion-item>
+      <ion-item>Duration: {{driver.time}}</ion-item>
+      <ion-item>Status: {{driver.status}}</ion-item>
     </ion-list>
+
+    <button ion-button (click) ="accept(driver)">Accept</button>
+    <button ion-button (click) ="reject(driver)">Reject</button>
 
   </ion-content>

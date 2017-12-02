@@ -1,0 +1,16 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Dear Mr/Mrs. {{book.username}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-label>{{book.title}}</ion-label>
+  <div>Your Car Booking Request For {{book.ownerPlate}} on </div>
+  <div>{{book.dateBook}} Has Been Rejected. </div>
+  <div>Reason: {{book.des}}</div>
+  <button ion-button (click) = "searchCar()">Find Another Car</button>
+  <button ion-button (click) = "back()">HOME</button>
+</ion-content>

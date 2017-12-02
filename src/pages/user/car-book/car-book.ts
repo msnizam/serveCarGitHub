@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { LoadingController } from 'ionic-angular';
 import { Car } from './../../../models/car/car.model';
 import { CarBookService } from './../../../services/car-list/car-book.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import firebase from 'firebase';
 import { SearchPage } from '../../user/search/search';
@@ -15,6 +16,7 @@ import { Driver } from './../../../models/driver/driver.model';
   templateUrl: 'car-book.html',
 })
 export class CarBookPage {
+  userRef: firebase.database.Reference;
   car: Car = {
     type: '',
     make: '',
@@ -28,14 +30,17 @@ export class CarBookPage {
   driver: Driver = {
     ownerPlate: '',
     name: '',
+    username: '',
     ic: undefined,
     phone: undefined,
     address: '',
     dateBook: '',
+    status: '',
     time: undefined
   }
 
   public ownerCarPLate = '';
+  public username = '';
 
   constructor(
     public navParams: NavParams,
@@ -43,6 +48,7 @@ export class CarBookPage {
     private bookRef: CarBookService,
     public navCtrl: NavController,
     private loadingCtrl: LoadingController,
+    private afAuth: AngularFireAuth,
     public alertCtrl: AlertController) {
   }
 
@@ -52,26 +58,32 @@ export class CarBookPage {
   }
 
   bookCar(driver: Driver){
-    this.bookRef.getCarBookList().push({
-      ownerPlate: this.ownerCarPLate,
-      name: driver.name,
-      ic: driver.ic,
-      phone: driver.phone,
-      address: driver.address,
-      dateBook: driver.dateBook,
-      time: driver.time
-    }).then(ref => {
-      let loader = this.loadingCtrl.create({
-        content: `Your Requesst Has Been Sent`,
-        duration: 1000
+    this.afAuth.authState.subscribe(person =>{
+      this.userRef = firebase.database().ref(`Car-Rental/User/${person.uid}`);
+
+      this.userRef.once('value', snapshot => {
+        this.username = snapshot.child("/username/").val();
+      }).then(() => {
+        this.bookRef.getCarBookList().push({
+          ownerPlate: this.ownerCarPLate,
+          name: driver.name,
+          username: this.username,
+          ic: driver.ic,
+          phone: driver.phone,
+          address: driver.address,
+          dateBook: driver.dateBook,
+          status: "Not Approved Yet",
+          time: driver.time
+        }).then(ref => {
+          let loader = this.loadingCtrl.create({
+            content: `Your Requesst Has Been Sent`,
+            duration: 1000
+          });
+          loader.present();
+          this.navCtrl.setRoot(SearchPage, {key: ref.key});
+        })
       });
-      loader.present();
-      this.navCtrl.setRoot(SearchPage, {key: ref.key});
     })
-  }
-
-  loading(){
-
   }
 
 }
