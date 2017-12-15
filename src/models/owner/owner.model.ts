@@ -14,6 +14,8 @@ export interface Accept{
   ownerPlate: string;
   dateBook: string;
   username: string;
+  price: number;
+  time: string;
 }
 export interface Reject{
   title: string;

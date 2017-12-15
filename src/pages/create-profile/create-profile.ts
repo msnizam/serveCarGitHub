@@ -33,6 +33,7 @@ export class CreateProfilePage {
 
   create(owner: Owner) {
     this.afAuth.authState.subscribe(user => {
+      if(owner.status == "Owner"){
       this.owner.getOwnerDetails().set({
         fullname : owner.fullname,
         username : owner.username,
@@ -40,8 +41,20 @@ export class CreateProfilePage {
         status: owner.status,
         email: user.email
         }).then(ref => {
-        this.nav.setRoot(LoginPage);
-      });
+          this.nav.setRoot(LoginPage);
+        });
+      }
+      else if(owner.status == "User"){
+      this.owner.getRentailDetails().set({
+        fullname : owner.fullname,
+        username : owner.username,
+        phone : owner.phone,
+        status: owner.status,
+        email: user.email
+        }).then(ref => {
+          this.nav.setRoot(LoginPage);
+        });
+      }
   })
 }
 }

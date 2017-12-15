@@ -4,6 +4,7 @@ import { Owner } from './../../../models/owner/owner.model';
 import { OwnerDetailsService } from './../../../services/owner-details/owner-details.service';
 import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { HomePage } from '../../home/home';
 
 @IonicPage()
 @Component({
@@ -25,12 +26,32 @@ export class UserProfilePage {
   }
 
   ionViewDidLoad() {
-    this.owner.getOwnerDetails().on('value', snapshot => {
+    this.owner.getRentailDetails().on('value', snapshot => {
         this.myPerson = snapshot.val();
     });
   }
   async editProfile(myPerson: Owner){
-    this.navCtrl.push("OwnerEditProfilePage", {myPerson : myPerson});
+    this.navCtrl.push("UserEditProfilePage", {myPerson : myPerson});
+  }
+
+  async confirmLogout(){
+    return this.afAuth.auth.signOut().then(() => {
+      this.navCtrl.setRoot(HomePage);
+    });
+  }
+
+  logout(){
+    let confirm = this.alertCtrl.create({
+      title: `Logout`,
+      message: 'Are you sure to log out your account?',
+      buttons: [{
+        text: "Cancel",
+      },{
+        text: "Logout",
+        handler: () => { this.confirmLogout() }
+      }]
+    });
+    confirm.present();
   }
 
 }

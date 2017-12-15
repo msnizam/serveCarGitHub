@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { CarListService } from './../../../services/car-list/car-list.service';
 import { Car } from './../../../models/car/car.model';
+import { OwnerProfilePage } from '../../owner/owner-profile/owner-profile';
+import { UserProfilePage } from '../../user/user-profile/user-profile';
 
 @IonicPage()
 @Component({
@@ -14,6 +16,7 @@ import { Car } from './../../../models/car/car.model';
 })
 export class SearchPage {
   carRef: firebase.database.Reference;
+  ownerRef: firebase.database.Reference;
   userRef: firebase.database.Reference;
   ownerCar = {} as Car;
   carList$: Observable<Car[]>;
@@ -52,17 +55,22 @@ export class SearchPage {
 
   async viewCar(car : Car){
     this.afAuth.authState.subscribe((person) => {
-    this.userRef = firebase.database().ref(`Car-Rental/User/${person.uid}`)
+    this.userRef = firebase.database().ref(`Car-Rental/User/Rental/${person.uid}`);
+    this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
     this.userRef.once('value', snapshot => {
         this.userStatus = snapshot.child("/status/").val();
-    }).then(() => {
-      if(this.userStatus == "Owner"){
-        this.navCtrl.push("OwnerViewCarPage", { car: car });
-      }
-      else if(this.userStatus == "User"){
-        this.navCtrl.push("UserViewCarPage", { car: car });
-      }
     })
+
+    this.ownerRef.once('value', snapshot => {
+        this.userStatus = snapshot.child("/status/").val();
+    })
+
+    if(this.userStatus == "Owner"){
+      this.navCtrl.push("OwnerViewCarPage", { car: car });
+    }
+    else if(this.userStatus == "User"){
+      this.navCtrl.push("UserViewCarPage", { car: car });
+    }
   })
 }
 
@@ -93,5 +101,25 @@ export class SearchPage {
       }
     });
   }
+  async profile(){
+    this.afAuth.authState.subscribe((person) => {
+    this.userRef = firebase.database().ref(`Car-Rental/User/Rental/${person.uid}`);
+    this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
+    this.userRef.once('value', snapshot => {
+        this.userStatus = snapshot.child("/status/").val();
+    })
+
+    this.ownerRef.once('value', snapshot => {
+        this.userStatus = snapshot.child("/status/").val();
+    })
+
+    if(this.userStatus == "Owner"){
+      this.navCtrl.setRoot(OwnerProfilePage);
+    }
+    else if(this.userStatus == "User"){
+      this.navCtrl.setRoot(UserProfilePage);
+    }
+  })
+}
 
 }

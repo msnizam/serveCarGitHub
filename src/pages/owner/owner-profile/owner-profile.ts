@@ -47,14 +47,21 @@ export class OwnerProfilePage {
       this.menu.enable(true, 'menu-O');
       this.menu.enable(false, 'menu-U') ;
 
+  }
+
+ionViewDidLoad(){
+      this.owner.getOwnerDetails().on('value', snapshot => {
+          this.myPerson = snapshot.val();
+      });
+
       this.afAuth.authState.subscribe((person) => {
-        this.carPlateRef = firebase.database().ref(`Car-Rental/User/${person.uid}/Plate-Number`);
+        this.carPlateRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}/Plate-Number`);
         this.carListRef = firebase.database().ref(`Car-Rental/Car-List`);
 
         this.carPlateRef.once('value', snapshot => {
           this.plateRef = [];
         snapshot.forEach(childSnapshot => {
-          this.plateNum =  childSnapshot.child("/plateNum/").val();
+          this.plateNum =  <string> childSnapshot.child("/plateNum/").val();
           this.plateRef.push({plateNum: this.plateNum});
           return false;
         })
@@ -63,17 +70,21 @@ export class OwnerProfilePage {
         this.carListRef.once('value', snapshot => {
           this.carRef = [];
         snapshot.forEach(childSnapshot => {
-          this.carRef.push(childSnapshot.val());
+          this.plate =  <string> childSnapshot.child("/plate/").val();
+          if(this.plateNum == this.plate)
+            this.carRef.push(childSnapshot.val());
           return false;
         })
         })
-      })
-  }
 
-ionViewDidLoad(){
-      this.owner.getOwnerDetails().on('value', snapshot => {
-          this.myPerson = snapshot.val();
-      });
+        /*this.carListRef.once('value', snapshot => {
+          this.carRef = [];
+        snapshot.forEach(childSnapshot => {
+          this.carRef.push(childSnapshot.val());
+          return false;
+        })
+        })*/
+      })
 
       /*this.plateCar.getPlate()
       .subscribe(snapshot =>{

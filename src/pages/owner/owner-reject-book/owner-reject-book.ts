@@ -15,12 +15,14 @@ export class OwnerRejectBookPage {
     ownerPlate: '',
     name: '',
     username: '',
-    ic: undefined,
+    ic: '',
     phone: undefined,
-    address: '',
+    location: '',
     dateBook: '',
+    time: '',
     status: '',
-    time: undefined
+    timeLimit: undefined,
+    price: undefined
   }
 
   rejectBook: Reject = {

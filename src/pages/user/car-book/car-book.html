@@ -18,8 +18,8 @@
   </ion-item>
 
   <ion-item>
-    <ion-label floating>IC Number</ion-label>
-    <ion-input type="number" [(ngModel)]= "driver.ic"></ion-input>
+    <ion-label floating>IC Number/Passport Identification</ion-label>
+    <ion-input type="text" [(ngModel)]= "driver.ic"></ion-input>
   </ion-item>
 
   <ion-item>
@@ -28,8 +28,8 @@
   </ion-item>
 
   <ion-item>
-    <ion-label floating>Address</ion-label>
-    <ion-input type="text" [(ngModel)]= "driver.address"></ion-input>
+    <ion-label floating>Pick Up Location</ion-label>
+    <ion-input type="text" [(ngModel)]= "driver.location"></ion-input>
   </ion-item>
 
   <ion-item>
@@ -38,8 +38,13 @@
   </ion-item>
 
   <ion-item>
-    <ion-label floating>Time Limit: </ion-label>
-    <ion-input type="number" [(ngModel)]= "driver.time"></ion-input>
+    <ion-label floating>Time For Pick Up: </ion-label>
+    <ion-datetime displayFormat="hh:mm A" [(ngModel)]= "driver.time"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>How Many Hour/s Spend</ion-label>
+    <ion-input type="number" [(ngModel)]= "driver.timeLimit"></ion-input>
   </ion-item>
 
   <button ion-button color="blue" (click)="bookCar(driver)">Start Book</button>

@@ -24,23 +24,27 @@ export class CarBookPage {
     transmission: '',
     year: undefined,
     plate: '',
-    rentPrice: undefined,
+    rentPriceWeekDays: undefined,
+    rentPriceWeekends: undefined,
     availability: ''
   }
   driver: Driver = {
     ownerPlate: '',
     name: '',
     username: '',
-    ic: undefined,
+    ic: '',
     phone: undefined,
-    address: '',
+    location: '',
     dateBook: '',
+    time: '',
     status: '',
-    time: undefined
+    timeLimit: undefined,
+    price: undefined
   }
 
   public ownerCarPLate = '';
   public username = '';
+  public totalPrice = 0.00;
 
   constructor(
     public navParams: NavParams,
@@ -58,8 +62,9 @@ export class CarBookPage {
   }
 
   bookCar(driver: Driver){
+    this.totalPrice = (this.car.rentPriceWeekDays * driver.timeLimit);
     this.afAuth.authState.subscribe(person =>{
-      this.userRef = firebase.database().ref(`Car-Rental/User/${person.uid}`);
+      this.userRef = firebase.database().ref(`Car-Rental/User/Rental/${person.uid}`);
 
       this.userRef.once('value', snapshot => {
         this.username = snapshot.child("/username/").val();
@@ -70,10 +75,12 @@ export class CarBookPage {
           username: this.username,
           ic: driver.ic,
           phone: driver.phone,
-          address: driver.address,
+          location: driver.location,
           dateBook: driver.dateBook,
           status: "Not Approved Yet",
-          time: driver.time
+          time: driver.time,
+          timeLimit: driver.timeLimit,
+          price: this.totalPrice,
         }).then(ref => {
           let loader = this.loadingCtrl.create({
             content: `Your Requesst Has Been Sent`,

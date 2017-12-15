@@ -31,7 +31,7 @@ export class UserEditProfilePage {
   }
 
   editProfile(owner: Owner){
-    this.ownerRef.editOwner(owner).then(() => {
+    this.ownerRef.editRentail(owner).then(() => {
       this.toast.show('Your changes have been saved!');
       this.navCtrl.setRoot(UserProfilePage);
     });

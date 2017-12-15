@@ -21,7 +21,8 @@ export class OwnerAddCarPage {
     transmission: '',
     year: undefined,
     plate: '',
-    rentPrice: undefined,
+    rentPriceWeekDays: undefined,
+    rentPriceWeekends: undefined,
     availability : ''
   }
     public plateNum = '';
@@ -49,14 +50,15 @@ export class OwnerAddCarPage {
           transmission: car.transmission,
           year: car.year,
           plate: car.plate,
-          rentPrice: car.rentPrice,
+          rentPriceWeekDays: car.rentPriceWeekDays,
+          rentPriceWeekends: car.rentPriceWeekends,
           availability : "Enabled"
         })
 
           this.plateRef.getPlate().push({
             plateNum: this.plateNum,
           })
-          
+
           this.toast.show(`${car.make} ${car.model} has been added!`);
           this.navCtrl.setRoot(OwnerProfilePage, {key: car.key});
 

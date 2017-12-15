@@ -16,18 +16,22 @@ export class OwnerViewBookCarPage {
     ownerPlate: '',
     name: '',
     username: '',
-    ic: undefined,
+    ic: '',
     phone: undefined,
-    address: '',
+    location: '',
     dateBook: '',
+    time: '',
     status: '',
-    time: undefined
+    timeLimit: undefined,
+    price: undefined
   }
 
   acceptBook: Accept = {
     ownerPlate: '',
     username: '',
-    dateBook: ''
+    dateBook: '',
+    price: undefined,
+    time: ''
   }
   public bookKey: '';
 
@@ -46,15 +50,19 @@ export class OwnerViewBookCarPage {
       username: this.driver.username,
       ic: this.driver.ic,
       phone: this.driver.phone,
-      address: this.driver.address,
+      location: this.driver.location,
       dateBook: this.driver.dateBook,
       status: "Accepted",
-      time: this.driver.time
+      time: this.driver.time,
+      timeLimit: this.driver.timeLimit,
+      price: this.driver.price
     }).then(() => {
       this.bookStatusRef.getBookAcceptList().push({
         ownerPlate: this.driver.ownerPlate,
         username: this.driver.username,
         dateBook: this.driver.dateBook,
+        price: this.driver.price,
+        time: this.driver.time
       })
       this.navCtrl.setRoot(OwnerProfilePage, {key: this.bookKey});
     });
@@ -67,10 +75,12 @@ export class OwnerViewBookCarPage {
       username: this.driver.username,
       ic: this.driver.ic,
       phone: this.driver.phone,
-      address: this.driver.address,
+      location: this.driver.location,
       dateBook: this.driver.dateBook,
       status: "Rejected",
-      time: this.driver.time
+      time: this.driver.time,
+      timeLimit: this.driver.timeLimit,
+      price: this.driver.price
     }).then(() => {
       this.navCtrl.push("OwnerRejectBookPage", {driver: driver});
     });

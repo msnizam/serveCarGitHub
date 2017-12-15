@@ -16,7 +16,7 @@ export class PlatNumberService {
   ) {
     this.afAuth.authState.subscribe(plate => {
       if(plate) this.plateID = plate.uid;
-      this.plateListRef = this.db.list(`Car-Rental/User/${this.plateID}/Plate-Number`);
+      this.plateListRef = this.db.list(`Car-Rental/User/Owner/${this.plateID}/Plate-Number`);
     })
   }
 

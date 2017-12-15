@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
 import { Driver } from './../../../models/driver/driver.model';
 import { CarBookService } from './../../../services/car-list/car-book.service';
+import { OwnerProfilePage } from '../../owner/owner-profile/owner-profile';
 
 @IonicPage()
 @Component({
@@ -48,4 +49,7 @@ export class OwnerViewRequestPage {
     this.navCtrl.push("OwnerViewBookCarPage", {key: driver.key, driver: driver });
   }
 
+  async profile(){
+    this.navCtrl.setRoot(OwnerProfilePage);
+  }
 }

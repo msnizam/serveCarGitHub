@@ -19,7 +19,8 @@ export class CarAvailablePage {
     transmission: '',
     year: undefined,
     plate: '',
-    rentPrice: undefined,
+    rentPriceWeekDays: undefined,
+    rentPriceWeekends: undefined,
     availability : ''
   }
 

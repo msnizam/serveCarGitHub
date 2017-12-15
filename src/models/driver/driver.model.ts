@@ -3,10 +3,12 @@ export interface Driver{
   ownerPlate: string;
   name: string;
   username: string;
-  ic: number;
+  ic: string;
   phone: number;
-  address: string;
+  location: string;
   dateBook: string;
   status: string;
-  time: number;
+  time: string;
+  timeLimit: number;
+  price: number;
 }

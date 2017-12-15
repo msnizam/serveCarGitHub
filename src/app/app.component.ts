@@ -44,7 +44,7 @@ export class MyApp {
   }
 
   openPage(page) {
-    this.nav.push(page.component);
+    this.nav.setRoot(page.component);
   }
 
   openMenu() {

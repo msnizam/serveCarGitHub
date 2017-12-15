@@ -28,8 +28,10 @@ export class LoginPage {
   }
   adminRef: firebase.database.Reference = firebase.database().ref(`Car-Rental/User`);
   userRef: firebase.database.Reference;
+  ownerRef: firebase.database.Reference;
   user = {} as User;
   public userStatus = '';
+  public ownerStatus = '';
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -44,41 +46,48 @@ export class LoginPage {
   }
 
   async login(user: User){
+    this.afAuth.authState.subscribe((person) => {
+    })
         this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
       .then((person) => {
-        this.userRef = firebase.database().ref(`Car-Rental/User/${person.uid}`)
+        this.userRef = firebase.database().ref(`Car-Rental/User/Rental/${person.uid}`);
+        this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
         this.userRef.once('value', snapshot => {
             this.userStatus = snapshot.child("/status/").val();
-        }).then(() => {
-          if(user.email == 'admin@mail.com' && user.password == 'admin123'){
-            if(person.email == user.email && person.password == user.password){
-            this.adminRef.set({
-              email: user.email,
-              password: user.password
-            });
-            this.navCtrl.setRoot(AdminPage);
-            }
-          }
-          else{
-          /*if(person.emailVerified){
-            let loader = this.loadingCtrl.create({
-              content: `Welcome ${person.email} `,
-              duration: 1500
-            });
-          loader.present();*/
-          if(this.userStatus == "Owner"){
-            this.navCtrl.setRoot(OwnerProfilePage);
-          }
-          else if(this.userStatus == "User"){
-            this.navCtrl.setRoot(UserProfilePage);
-          }
-
-          /*}
-          else{
-              this.presentAlert()
-          }*/
-        }
         })
+
+        this.ownerRef.once('value', snapshot => {
+            this.ownerStatus = snapshot.child("/status/").val();
+        })
+
+        if(user.email == 'admin@mail.com' && user.password == 'admin123'){
+          if(person.email == user.email && person.password == user.password){
+          this.adminRef.set({
+            email: user.email,
+            password: user.password
+          });
+          this.navCtrl.setRoot(AdminPage);
+          }
+        }
+        else{
+        /*if(person.emailVerified){
+          let loader = this.loadingCtrl.create({
+            content: `Welcome ${person.email} `,
+            duration: 1500
+          });
+        loader.present();*/
+        if(this.ownerStatus == "Owner"){
+          this.navCtrl.setRoot(OwnerProfilePage);
+        }
+        else if(this.userStatus == "User"){
+          this.navCtrl.setRoot(UserProfilePage);
+        }
+
+        /*}
+        else{
+            this.presentAlert()
+        }*/
+      }
     });
   }
 

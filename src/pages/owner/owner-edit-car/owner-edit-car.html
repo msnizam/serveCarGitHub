@@ -65,8 +65,13 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Rental Price (per hour):</ion-label>
-    <ion-input [(ngModel)]="car.rentPrice" type="number" placeholder="5.00"></ion-input>
+    <ion-label>Rental Price (per hour) on WeekDays:</ion-label>
+    <ion-input [(ngModel)]="car.rentPriceWeekDays" type="number" placeholder="5.00"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Rental Price (per hour) on Weekends:</ion-label>
+    <ion-input [(ngModel)]="car.rentPriceWeekends" type="number" placeholder="5.00"></ion-input>
   </ion-item>
 
   <button ion-button block clear (click)="editCar(car)">Save</button>

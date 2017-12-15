@@ -8,11 +8,11 @@
 <ion-content padding>
   <ion-item>
     <ion-label floating>Title</ion-label>
-    <ion-input type="text" [(ngModel)]= "rejectBook.name"></ion-input>
+    <ion-input type="text" [(ngModel)]= "rejectBook.title"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label floating>Reason</ion-label>
-    <ion-input type="text" [(ngModel)]= "rejectBook.name"></ion-input>
+    <ion-input type="text" [(ngModel)]= "rejectBook.des"></ion-input>
   </ion-item>
   <button ion-button color="blue" (click)="sendResult(rejectBook)">SEND</button>
 </ion-content>
