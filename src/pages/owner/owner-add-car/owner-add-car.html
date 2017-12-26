@@ -53,7 +53,7 @@
 
   <ion-item>
     <ion-label>Year:</ion-label>
-    <ion-input [(ngModel)]="car.year" type="number" placeholder="2015"></ion-input>
+    <ion-datetime displayFormat="YYYY" min="2000" max="2050" [(ngModel)]="car.year"></ion-datetime>
   </ion-item>
 
   <ion-item>
@@ -62,13 +62,13 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Rental Price (per hour) on WeekDays:</ion-label>
-    <ion-input [(ngModel)]="car.rentPriceWeekDays" type="number" placeholder="5.00"></ion-input>
+    <ion-label>Weekdays Price/hour:</ion-label>
+    <ion-input [(ngModel)]="car.weekdayRP" type="number" placeholder="5.00"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label>Rental Price (per hour) on Weekends:</ion-label>
-    <ion-input [(ngModel)]="car.rentPriceWeekends" type="number" placeholder="5.00"></ion-input>
+    <ion-label>Weekend Price/hour:</ion-label>
+    <ion-input [(ngModel)]="car.weekendRP" type="number" placeholder="5.00"></ion-input>
   </ion-item>
 
   <button ion-button block clear (click)="addCar(car)">Add</button>

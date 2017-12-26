@@ -17,6 +17,8 @@ export class OwnerEditProfilePage {
     email: '',
     phone: undefined,
     status: '',
+    carCount: undefined,
+    carLimit: undefined
   };
 
   constructor(

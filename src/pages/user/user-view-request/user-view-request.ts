@@ -36,7 +36,7 @@ export class UserViewRequestPage {
     private user: OwnerDetailsService,
     private carStatus: CarStatusService,
     public navParams: NavParams) {
-      this.user.getRentailDetails().on('value', snapshot => {
+      this.user.getRenterDetails().on('value', snapshot => {
           this.username1 = snapshot.val().username;
       });
   }

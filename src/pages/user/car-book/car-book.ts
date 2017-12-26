@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, AlertController, IonicPage, ModalController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { LoadingController } from 'ionic-angular';
@@ -7,7 +8,7 @@ import { CarBookService } from './../../../services/car-list/car-book.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import firebase from 'firebase';
-import { SearchPage } from '../../user/search/search';
+import { UserProfilePage } from '../../user/user-profile/user-profile';
 import { Driver } from './../../../models/driver/driver.model';
 
 @IonicPage()
@@ -16,6 +17,7 @@ import { Driver } from './../../../models/driver/driver.model';
   templateUrl: 'car-book.html',
 })
 export class CarBookPage {
+  carBookForm: FormGroup;
   userRef: firebase.database.Reference;
   car: Car = {
     type: '',
@@ -24,36 +26,91 @@ export class CarBookPage {
     transmission: '',
     year: undefined,
     plate: '',
-    rentPriceWeekDays: undefined,
-    rentPriceWeekends: undefined,
-    availability: ''
+    weekdayRP: undefined,
+    weekendRP: undefined,
+    availability: '',
+    owner: ''
   }
   driver: Driver = {
     ownerPlate: '',
     name: '',
-    username: '',
+    renter: '',
     ic: '',
     phone: undefined,
     location: '',
     dateBook: '',
-    time: '',
     status: '',
-    timeLimit: undefined,
+    startTime: undefined,
+    endTime: undefined,
+    rentPeriod: undefined,
     price: undefined
   }
 
   public ownerCarPLate = '';
   public username = '';
-  public totalPrice = 0.00;
+  public totalPrice = 0;
+  public date: any;
+  public todayDate = '';
+  public today = '';
+  public tempDate: any;
+  public hari = '';
+  public day: any;
 
   constructor(
     public navParams: NavParams,
     private afData: AngularFireDatabase,
     private bookRef: CarBookService,
-    public navCtrl: NavController,
+    public nav: NavController,
     private loadingCtrl: LoadingController,
     private afAuth: AngularFireAuth,
+    private formBuilder: FormBuilder,
     public alertCtrl: AlertController) {
+      this.nav = nav;
+
+      this.carBookForm = formBuilder.group({
+        uname: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+        identify: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(15)])],
+        phoneNum: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
+        place: ['',  Validators.compose([Validators.required])]
+      });
+
+/*        var today = new Date();
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        today.setMilliseconds(0);
+        date: today.getDate(),
+        month: today.getMonth(),
+        year: today.getFullYear(),
+        day: today.getDay(),
+      //  parseInt(myString)
+      */
+      this.date = new Date();
+      this.todayDate = this.date.getFullYear().toString()+'-'+
+                       (this.date.getMonth()+1).toString()+'-'+
+                       this.date.getDate().toString();
+
+      this.today = this.date.getDay().toString();
+
+      this.tempDate = new Date(this.date.getFullYear(), this.date.getMonth(),this.date.getDate());
+      this.day = this.tempDate.getDay();
+      switch(this.day){
+        case 0: this.hari = 'Sunday';
+                  break;
+        case 1: this.hari = 'Monday';
+                  break;
+        case 2: this.hari = 'Tuesday';
+                  break;
+        case 3: this.hari = 'Wednesday';
+                  break;
+        case 4: this.hari = 'Thursday';
+                  break;
+        case 5: this.hari = 'Friday';
+                  break;
+        case 6: this.hari = 'Saturday';
+                  break;
+        default: break;
+      }
   }
 
   ionViewDidLoad() {
@@ -62,9 +119,13 @@ export class CarBookPage {
   }
 
   bookCar(driver: Driver){
-    this.totalPrice = (this.car.rentPriceWeekDays * driver.timeLimit);
+    //to differentiate weekday and weekend price
+    if(this.today == '5'||this.today == '6')
+      this.totalPrice = (this.car.weekendRP * driver.rentPeriod);
+    else this.totalPrice = (this.car.weekdayRP * driver.rentPeriod);
+
     this.afAuth.authState.subscribe(person =>{
-      this.userRef = firebase.database().ref(`Car-Rental/User/Rental/${person.uid}`);
+      this.userRef = firebase.database().ref(`Car-Rental/User/Renter/${person.uid}`);
 
       this.userRef.once('value', snapshot => {
         this.username = snapshot.child("/username/").val();
@@ -72,22 +133,23 @@ export class CarBookPage {
         this.bookRef.getCarBookList().push({
           ownerPlate: this.ownerCarPLate,
           name: driver.name,
-          username: this.username,
+          renter: this.username,
           ic: driver.ic,
           phone: driver.phone,
           location: driver.location,
           dateBook: driver.dateBook,
-          status: "Not Approved Yet",
-          time: driver.time,
-          timeLimit: driver.timeLimit,
+          status: "Pending",
+          startTime: driver.startTime,
+          endTime: driver.endTime,
+          rentPeriod: driver.rentPeriod,
           price: this.totalPrice,
         }).then(ref => {
           let loader = this.loadingCtrl.create({
-            content: `Your Requesst Has Been Sent`,
+            content: `Your Request Has Been Sent!`,
             duration: 1000
           });
           loader.present();
-          this.navCtrl.setRoot(SearchPage, {key: ref.key});
+          this.nav.setRoot(UserProfilePage, {key: ref.key});
         })
       });
     })

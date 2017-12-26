@@ -6,9 +6,10 @@ export interface Car{
   transmission: string;
   year: number;
   plate: string;
-  rentPriceWeekDays: number;
-  rentPriceWeekends: number;
+  weekdayRP: number;
+  weekendRP: number;
   availability: string;
+  owner: string;
 }
 
 export interface PlateNumber{

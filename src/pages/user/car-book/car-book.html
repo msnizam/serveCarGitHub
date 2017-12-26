@@ -10,41 +10,84 @@
   <ion-item>
     <h2>{{car.make}} {{car.model}}</h2>
     <p>{{car.plate}}</p>
+    <p>{{tempDate}}</p>
   </ion-item>
 
-  <ion-item>
+<div [formGroup]="carBookForm">
+  <ion-item [ngClass]="{'error-border':!carBookForm.controls.uname.valid && carBookForm.controls.uname.touched}">
     <ion-label floating>Full Name</ion-label>
-    <ion-input type="text" [(ngModel)]= "driver.name"></ion-input>
+    <ion-input formControlName="uname" type="text" [(ngModel)]="driver.name"></ion-input>
   </ion-item>
+  <ion-item *ngIf="carBookForm.controls.uname.hasError('required') && carBookForm.controls.uname.touched">
+        <p>Sorry, field Fullname is required!</p>
+  </ion-item>
+</div>
 
-  <ion-item>
+<div [formGroup]="carBookForm">
+  <ion-item [ngClass]="{'error-border':!carBookForm.controls.identify.valid && carBookForm.controls.identify.touched}">
     <ion-label floating>IC Number/Passport Identification</ion-label>
-    <ion-input type="text" [(ngModel)]= "driver.ic"></ion-input>
+    <ion-input formControlName="identify" type="text" [(ngModel)]="driver.ic"></ion-input>
   </ion-item>
+  <ion-item *ngIf="carBookForm.controls.identify.hasError('required') && carBookForm.controls.identify.touched">
+        <p>Sorry, field User Identification is required!</p>
+  </ion-item>
+  <ion-item *ngIf="carBookForm.controls.identify.hasError('minlength') && carBookForm.controls.identify.touched">
+      <p>Sorry, maximum username length is 6!</p>
+  </ion-item>
+  <ion-item *ngIf="carBookForm.controls.identify.hasError('maxlength') && carBookForm.controls.identify.touched">
+      <p>Sorry, maximum username length is 15!</p>
+  </ion-item>
+</div>
 
-  <ion-item>
+<div [formGroup]="carBookForm">
+  <ion-item [ngClass]="{'error-border':!carBookForm.controls.phoneNum.valid && carBookForm.controls.phoneNum.touched}">
     <ion-label floating>Phone Number</ion-label>
-    <ion-input type="number" [(ngModel)]= "driver.phone"></ion-input>
+    <ion-input formControlName="phoneNum" type="number" [(ngModel)]= "driver.phone"></ion-input>
   </ion-item>
+  <ion-item *ngIf="carBookForm.controls.phoneNum.hasError('required') && carBookForm.controls.phoneNum.touched">
+        <p>Sorry, field Phone Number is required!</p>
+  </ion-item>
+</div>
 
-  <ion-item>
+<div [formGroup]="carBookForm">
+  <ion-item [ngClass]="{'error-border':!carBookForm.controls.place.valid && carBookForm.controls.place.touched}">
     <ion-label floating>Pick Up Location</ion-label>
-    <ion-input type="text" [(ngModel)]= "driver.location"></ion-input>
+    <ion-input formControlName="place" type="text" [(ngModel)]="driver.location"></ion-input>
   </ion-item>
+  <ion-item *ngIf="carBookForm.controls.place.hasError('required') && carBookForm.controls.place.touched">
+        <p>Sorry, field Location is required!</p>
+  </ion-item>
+</div>
 
   <ion-item>
     <ion-label floating>Date To Book</ion-label>
-    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="driver.dateBook"></ion-datetime>
+    <ion-datetime
+      displayFormat="DD MMMM YYYY"
+      min={{todayDate}}
+      max="2030-12-31"
+      [(ngModel)]="driver.dateBook">
+    </ion-datetime>
   </ion-item>
 
   <ion-item>
-    <ion-label floating>Time For Pick Up: </ion-label>
-    <ion-datetime displayFormat="hh:mm A" [(ngModel)]= "driver.time"></ion-datetime>
+    <ion-label floating>Pick up Time</ion-label>
+    <ion-datetime displayFormat="HH:mm"
+                  hourValues="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23"
+                  minuteValues="0,15,30,45"
+                  [(ngModel)]="driver.startTime"></ion-datetime>
   </ion-item>
 
   <ion-item>
-    <ion-label floating>How Many Hour/s Spend</ion-label>
-    <ion-input type="number" [(ngModel)]= "driver.timeLimit"></ion-input>
+    <ion-label floating>Return Time</ion-label>
+    <ion-datetime displayFormat="HH:mm"
+                  hourValues="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23"
+                  minuteValues="0,15,30,45"
+                  [(ngModel)]="driver.endTime"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Rent Period: </ion-label>
+    <ion-input type="number" [(ngModel)]= "driver.rentPeriod"></ion-input>
   </ion-item>
 
   <button ion-button color="blue" (click)="bookCar(driver)">Start Book</button>

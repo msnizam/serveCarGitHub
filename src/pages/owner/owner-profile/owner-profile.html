@@ -17,28 +17,25 @@
 
   <div padding>
     <ion-segment [(ngModel)]="profile">
-      <ion-segment-button value="owner">ABOUT OWNER</ion-segment-button>
-      <ion-segment-button value="car">CAR LIST</ion-segment-button>
+      <ion-segment-button value="owner">ABOUT ME</ion-segment-button>
+      <ion-segment-button value="car">MY CARS</ion-segment-button>
     </ion-segment>
   </div>
 
   <div [ngSwitch]="profile">
     <ion-list *ngSwitchCase="'owner'">
-      <ion-list-header>
-          Owner
-      </ion-list-header>
+      <ion-list-header>{{myPerson.username}}</ion-list-header>
         <ion-item>
-          <div>User Name    : {{myPerson.username}}</div>
-          <div>Full Name    : {{myPerson.fullname}}</div>
-          <div>Phone Number : {{myPerson.phone}}</div>
-          <div>Email        : {{myPerson.email}}</div>
+          <p>Name: {{myPerson.fullname}}</p>
+          <p>Email: {{myPerson.email}}</p>
+          <p>Phone Number: {{myPerson.phone}}</p>
           <button ion-button (click) = "editProfile(myPerson)">Update</button>
         </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'car'">
       <ion-list-header> Cars </ion-list-header>
-        <ion-item *ngFor="let car of carRef">
+        <ion-item *ngFor="let car of carList$ | async">
           <div>{{car.make}} {{car.model}}</div>
           <p>{{car.plate}}</p>
           <button ion-button clear item-end navPush="OwnerViewCarPage"
@@ -52,7 +49,7 @@
         </ion-item>
 
         <ion-buttons>
-          <button block clear navPush="OwnerAddCarPage" ion-button>
+          <button block clear (click)="compareCarLimit()" ion-button>
             Add New Car
           </button>
         </ion-buttons>

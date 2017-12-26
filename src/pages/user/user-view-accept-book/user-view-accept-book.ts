@@ -15,7 +15,7 @@ export class UserViewAcceptBookPage {
     ownerPlate: '',
     dateBook: '',
     price: undefined,
-    time: ''
+    time: undefined
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {

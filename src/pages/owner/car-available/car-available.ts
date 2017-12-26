@@ -19,9 +19,10 @@ export class CarAvailablePage {
     transmission: '',
     year: undefined,
     plate: '',
-    rentPriceWeekDays: undefined,
-    rentPriceWeekends: undefined,
-    availability : ''
+    weekdayRP: undefined,
+    weekendRP: undefined,
+    availability : '',
+    owner: ''
   }
 
   constructor(

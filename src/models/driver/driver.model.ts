@@ -2,13 +2,14 @@ export interface Driver{
   key?: string;
   ownerPlate: string;
   name: string;
-  username: string;
+  renter: string;
   ic: string;
   phone: number;
   location: string;
   dateBook: string;
   status: string;
-  time: string;
-  timeLimit: number;
+  startTime: number;
+  endTime: number;
+  rentPeriod: number;
   price: number;
 }

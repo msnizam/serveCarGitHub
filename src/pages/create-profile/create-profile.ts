@@ -16,19 +16,18 @@ import { LoginPage } from '../login/login';
 })
 export class CreateProfilePage {
   public email = "";
-
+  public carCount = 0;
+  public carLimit = 3;
   profileForm: FormGroup;
 
   constructor(public loadingCtrl: LoadingController, private owner: OwnerDetailsService, private afAuth: AngularFireAuth, private afData: AngularFireDatabase, public nav: NavController, public navParams: NavParams, public formBuilder: FormBuilder) {
-
     this.nav = nav;
-
-       this.profileForm = formBuilder.group({
-           fullname: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
-           username: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(20)])],
-           status: [''],
-           phone: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])]
-       });
+    this.profileForm = formBuilder.group({
+      fullname: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+      username: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(20)])],
+      status: [''],
+      phone: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])]
+    });
   }
 
   create(owner: Owner) {
@@ -39,22 +38,20 @@ export class CreateProfilePage {
         username : owner.username,
         phone : owner.phone,
         status: owner.status,
-        email: user.email
-        }).then(ref => {
-          this.nav.setRoot(LoginPage);
-        });
-      }
-      else if(owner.status == "User"){
-      this.owner.getRentailDetails().set({
+        email: user.email,
+        carCount: this.carCount,
+        carLimit: this.carLimit
+        }).then(ref => {this.nav.setRoot(LoginPage);});
+
+      }else if(owner.status == "User"){
+      this.owner.getRenterDetails().set({
         fullname : owner.fullname,
         username : owner.username,
         phone : owner.phone,
         status: owner.status,
         email: user.email
-        }).then(ref => {
-          this.nav.setRoot(LoginPage);
-        });
+        }).then(ref => {this.nav.setRoot(LoginPage);});
       }
-  })
-}
+    })
+  }
 }

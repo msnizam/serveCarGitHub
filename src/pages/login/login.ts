@@ -19,13 +19,13 @@ import { Owner } from './../../models/owner/owner.model';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  owner: Owner = {
+  /*owner: Owner = {
     fullname: '',
     username: '',
     phone: undefined,
     email: '',
     status: '',
-  }
+  }*/
   adminRef: firebase.database.Reference = firebase.database().ref(`Car-Rental/User`);
   userRef: firebase.database.Reference;
   ownerRef: firebase.database.Reference;
@@ -46,16 +46,13 @@ export class LoginPage {
   }
 
   async login(user: User){
-    this.afAuth.authState.subscribe((person) => {
-    })
         this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
       .then((person) => {
-        this.userRef = firebase.database().ref(`Car-Rental/User/Rental/${person.uid}`);
+        this.userRef = firebase.database().ref(`Car-Rental/User/Renter/${person.uid}`);
         this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
         this.userRef.once('value', snapshot => {
             this.userStatus = snapshot.child("/status/").val();
         })
-
         this.ownerRef.once('value', snapshot => {
             this.ownerStatus = snapshot.child("/status/").val();
         })
@@ -70,12 +67,13 @@ export class LoginPage {
           }
         }
         else{
-        /*if(person.emailVerified){
+        //if(person.emailVerified){
           let loader = this.loadingCtrl.create({
             content: `Welcome ${person.email} `,
-            duration: 1500
+            duration: 5000
           });
-        loader.present();*/
+        loader.present();
+        //await this.delay(5000);
         if(this.ownerStatus == "Owner"){
           this.navCtrl.setRoot(OwnerProfilePage);
         }

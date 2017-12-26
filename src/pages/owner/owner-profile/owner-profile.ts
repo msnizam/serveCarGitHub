@@ -3,12 +3,14 @@ import { NavController, AlertController, IonicPage, ModalController, MenuControl
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
-import { HomePage } from '../../home/home';
+import { LoginPage } from '../../login/login';
 import { CarListService } from './../../../services/car-list/car-list.service';
 import { OwnerDetailsService } from './../../../services/owner-details/owner-details.service';
 import { PlatNumberService } from './../../../services/car-list/plate-number.service';
-import { Car, PlateNumber } from './../../../models/car/car.model';
+import { Car } from './../../../models/car/car.model';
 import { Owner } from './../../../models/owner/owner.model';
 
 @IonicPage()
@@ -17,120 +19,145 @@ import { Owner } from './../../../models/owner/owner.model';
   templateUrl: 'owner-profile.html',
 })
 export class OwnerProfilePage {
-  activeMenu: string = 'menu-O'
-  public carRef: Array<any> = [];
-  public plateRef: Array<{
-    plateNum: string }> = [];
+  activeMenu: string = 'menu-O';
+  ownerCarListRef: AngularFireList<Car>
   public myPerson = {} as Owner;
-  //public carList = {} as Car;
-  carList: Observable<Car[]>;
-  carListPlate: Observable<Car[]>;
-  carPlate: Observable<PlateNumber[]>;
+  public ownerPlate = [];
+  public plate = '';
+  //////////////////////////////
+  public carList: Array<any> = [];
+  public loadedCarList: Array<any> = [];
+  public plateListss: Array<any> = [];
+  public owner_username: '';
+  public carlist_username: '';
+
+  public carLimit: number;
+  public carCount: number;
+  //////////////////////////////
+  carList$: Observable<Car[]>;
   carAvailRef: firebase.database.Reference;
   carListRef: firebase.database.Reference;
-  carPlateRef: firebase.database.Reference;
-
-  public plateNum = '';
-  public plate = '';
+  usernameRef: firebase.database.Reference;
+  carCountRef: firebase.database.Reference;
 
   constructor(
     public navCtrl: NavController,
+    private db: AngularFireDatabase,
     private afAuth: AngularFireAuth,
     private owner: OwnerDetailsService,
     private ownerCar :CarListService,
     private plateCar: PlatNumberService,
     public alertCtrl: AlertController,
     private menu: MenuController,
+    private inAppBrowser: InAppBrowser,
     private modal: ModalController) {
 
-      this.activeMenu= 'menu-O' ;
+      this.activeMenu = 'menu-O' ;
       this.menu.enable(true, 'menu-O');
       this.menu.enable(false, 'menu-U') ;
 
-  }
-
-ionViewDidLoad(){
-      this.owner.getOwnerDetails().on('value', snapshot => {
-          this.myPerson = snapshot.val();
-      });
+      //this.ownerCarListRef = this.db.list(`Car-Rental/Car-List`, ref => ref.orderByChild('owner').equalTo(this.owner_username));
 
       this.afAuth.authState.subscribe((person) => {
-        this.carPlateRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}/Plate-Number`);
+        this.usernameRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}/username`);
+        this.usernameRef.on('value', snapshot => {
+          this.owner_username = snapshot.child("/username/").val();
+        });
         this.carListRef = firebase.database().ref(`Car-Rental/Car-List`);
+        //////////////////////////////////////////////
+        this.carListRef.on('value', carList => {
+          let cars = [];
+          carList.forEach(car => {
+            cars.push(car.val());
+            return false;
+          });
 
-        this.carPlateRef.once('value', snapshot => {
-          this.plateRef = [];
-        snapshot.forEach(childSnapshot => {
-          this.plateNum =  <string> childSnapshot.child("/plateNum/").val();
-          this.plateRef.push({plateNum: this.plateNum});
-          return false;
-        })
-        })
-
-        this.carListRef.once('value', snapshot => {
-          this.carRef = [];
-        snapshot.forEach(childSnapshot => {
-          this.plate =  <string> childSnapshot.child("/plate/").val();
-          if(this.plateNum == this.plate)
-            this.carRef.push(childSnapshot.val());
-          return false;
-        })
-        })
-
-        /*this.carListRef.once('value', snapshot => {
-          this.carRef = [];
-        snapshot.forEach(childSnapshot => {
-          this.carRef.push(childSnapshot.val());
-          return false;
-        })
+          this.carList = cars;
+          this.loadedCarList = cars;
+        });
+        //////////////////////////////////////////////
+    /*    this.carListRef.on('value', snapshot => {
+          snapshot.forEach(childSnapshot => {
+            this.carlist_username = childSnapshot.child("/owner/").val();
+            if(this.carlist_username == this.owner_username)
+              this.ownerCar.getFilteredCarList().push()
+            return false;
+          })
         })*/
+        this.carCountRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
+        this.carCountRef.on('value', snapshot => {
+          this.carCount = snapshot.child("/carCount/").val();
+          this.carLimit = snapshot.child("/carLimit/").val();
+        });
       })
+  }
 
-      /*this.plateCar.getPlate()
-      .subscribe(snapshot =>{
-        snapshot.forEach(plateShot => {
-          this.plateNum = plateShot.val().plateNum;
+  /*ionViewDidLoad(){
+    this.owner.getOwnerDetails().on('value', snapshot => {
+        this.myPerson = snapshot.val();
+    });
 
-          this.plateRef.push({plateNum: this.plateNum})
-        })
-      });
+    this.carListRef.on('value', snapshot => {
+      this.carList = [];
+      snapshot.forEach(childSnapshot => {
+        this.carlist_username = childSnapshot.child("/owner/").val();
+        if(this.carlist_username == this.owner_username)
+          this.carList.push(childSnapshot.val());
+        return false;
+      })
+    })
+  }*/
 
-      this.ownerCar.getCarList()
-      .subscribe(snapshot =>{
-        snapshot.forEach(plateShot => {
-          this.plate = plateShot.val().plate;
+  ionViewWillLoad(){
+    this.owner.getOwnerDetails().on('value', snapshot => {
+      this.myPerson = snapshot.val();
+    });
 
-          this.carRef.push({plate: this.plate})
-        })
+    /*this.carList$ = this.ownerCarListRef
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key,
+          ...c.payload.val(),
+        }));
       });*/
-/*if(this.carRef.plate == this.plateRef.plateNum){
-      this.carList = this.ownerCar
-        .getCarList() //db list
-        .snapshotChanges() //key and value passed
-        .map(changes => {
-          return changes.map(c => ({
-            key: c.payload.key,
-            ...c.payload.val(),
-          }));
-        });
-      }*/
 
+    this.carList$ = this.ownerCar
+      .getCarList()
+      //.getFilteredCarList(this.owner_username)
+      .snapshotChanges()
+      .map(changes => {
+        return changes.map(c => ({
+          key: c.payload.key,
+          ...c.payload.val(),
+        }));
+      });
+  }
 
+compareCarLimit(){
+  if(this.carCount >= this.carLimit){
+    let limitReach = this.alertCtrl.create({
+      title: `Limit Reached!`,
+      message: 'You have reached your car limit number. To register more cars, please contact the admin',
+      buttons: [{
+        text: "No! Thanks",
+      },{
+        text: "Yes! Sure",
+        handler: () => { this.openWebPage("https://api.whatsapp.com/send?phone=601110360906&text=") }
+      }]
+    });
+    limitReach.present();
+  }else this.navCtrl.push("OwnerAddCarPage");
 
-      this.carList = this.ownerCar
-        .getCarList() //db list
-        .snapshotChanges() //key and value passed
-        .map(changes => {
-          return changes.map(c => ({
-            key: c.payload.key,
-            ...c.payload.val(),
-          }));
-        });
 }
+
+  openWebPage(url: string){
+    const browser = this.inAppBrowser.create(url,'_system');
+  }
 
   async confirmLogout(){
     return this.afAuth.auth.signOut().then(() => {
-      this.navCtrl.setRoot(HomePage);
+      this.navCtrl.setRoot(LoginPage);
     });
   }
 

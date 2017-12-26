@@ -2,8 +2,8 @@ import { CarListService } from './../../../services/car-list/car-list.service';
 import { ToastService } from './../../../services/toast/toast.service';
 import { Car } from './../../../models/car/car.model';
 import { AngularFireAuth } from 'angularfire2/auth';
-import firebase from 'firebase';
 import { Owner } from './../../../models/owner/owner.model';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { Component } from '@angular/core';
 import { IonicPage, AlertController, NavController, NavParams } from 'ionic-angular';
@@ -14,16 +14,8 @@ import { IonicPage, AlertController, NavController, NavParams } from 'ionic-angu
   templateUrl: 'user-view-car.html',
 })
 export class UserViewCarPage {
-  public plateRef: Array<{
-    plateNum: string }> = [];
-  public owner = {} as Owner;
   car: Car;
-  carRef: Car;
-  refOwner: Owner;
-  ownerRef: firebase.database.Reference;
-  carPlateRef: firebase.database.Reference;
-  public plateNum = [];
-  public plate = '';
+  public owner = '';
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -32,12 +24,13 @@ export class UserViewCarPage {
     private ownersCarlist:CarListService,
     private toast: ToastService,
     public alertCtrl: AlertController,
+    private inAppBrowser: InAppBrowser,
   ) {
   }
 
   ionViewWillLoad(){
     this.car = this.navParams.get('car');
-    this.plate = this.car.plate;
+    this.owner = this.car.owner;
   }
 
   async viewCar(car : Car){
@@ -45,31 +38,10 @@ export class UserViewCarPage {
   }
 
   async viewOwner(){
-    //carRef = this.car;
-    //refOwner = this.owner;
-    this.afAuth.authState.subscribe(person => {
-      this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
-      this.carPlateRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}/Plate-Number`);
+    this.openWebPage("https://api.whatsapp.com/send?phone=60142288047&text=")
+  }
 
-      this.carPlateRef.once('value', snapshot => {
-        var index=0;
-        this.plateRef = [];
-      snapshot.forEach(childSnapshot => {
-        this.plateNum[index] =  childSnapshot.child("/plateNum/").val();
-        this.plateRef.push({plateNum: this.plateNum[index+1]});
-        return false;
-      })
-      })
-
-      this.ownerRef.once('value', snapshot => {
-        var index = 0;
-        if(this.plate == this.plateNum[index]){
-          this.owner = snapshot.val();
-          index = index + 1;
-        }
-      }).then(() => {
-        this.navCtrl.push("UserViewOwnerProfilePage", {owner: this.owner, car: this.car});
-      })
-    })
+  openWebPage(url: string){
+    const browser = this.inAppBrowser.create(url,'_system');
   }
 }

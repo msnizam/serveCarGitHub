@@ -9,18 +9,18 @@
 
   <ion-item>
     <ion-label>User Name:</ion-label>
-    <ion-input [(ngModel)]="owner.username"></ion-input>
+    <ion-input [(ngModel)]="renter.username"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label>Full Name:</ion-label>
-    <ion-input [(ngModel)]="owner.fullname"></ion-input>
+    <ion-input [(ngModel)]="renter.fullname"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label>Phone Number:</ion-label>
-    <ion-input [(ngModel)]="owner.phone"></ion-input>
+    <ion-input [(ngModel)]="renter.phone"></ion-input>
   </ion-item>
 
-  <button ion-button block clear (click)="editProfile(owner)">Save</button>
+  <button ion-button block clear (click)="editProfile(renter)">Save</button>
 </ion-content>

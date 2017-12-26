@@ -6,7 +6,6 @@
 
 </ion-header>
 
-
 <ion-content padding>
   <form [formGroup]="profileForm">
   <ion-item [ngClass]="{'error-border':!profileForm.controls.fullname.valid && profileForm.controls.fullname.touched}">
@@ -49,3 +48,4 @@
 
   <button ion-button color="light" (click)="create(owner)">Create Profile</button>
 </form>
+</ion-content>

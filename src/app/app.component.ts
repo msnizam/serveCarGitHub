@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { OwnerViewRequestPage } from '../pages/owner/owner-view-request/owner-view-request';
 import { UserViewRequestPage } from '../pages/user/user-view-request/user-view-request';
+import { UserViewBookRequestPage } from '../pages/user/user-view-book-request/user-view-book-request';
 
 @Component({
   templateUrl: 'app.html'
@@ -31,7 +32,8 @@ export class MyApp {
 
     this.pagesU = [
       { title: 'Search', component: SearchPage },
-      { title: 'Car Book Result', component: UserViewRequestPage }
+      { title: 'Car Book Result', component: UserViewRequestPage },
+      { title: 'Car Booking', component: UserViewBookRequestPage }
     ];
 
   }
@@ -44,7 +46,7 @@ export class MyApp {
   }
 
   openPage(page) {
-    this.nav.setRoot(page.component);
+    this.nav.push(page.component);
   }
 
   openMenu() {

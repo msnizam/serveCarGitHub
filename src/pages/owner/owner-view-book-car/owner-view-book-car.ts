@@ -15,14 +15,15 @@ export class OwnerViewBookCarPage {
   driver: Driver = {
     ownerPlate: '',
     name: '',
-    username: '',
-    ic: '',
+    renter: '',
+    ic: undefined,
     phone: undefined,
     location: '',
     dateBook: '',
-    time: '',
     status: '',
-    timeLimit: undefined,
+    startTime: undefined,
+    endTime: undefined,
+    rentPeriod: undefined,
     price: undefined
   }
 
@@ -31,7 +32,7 @@ export class OwnerViewBookCarPage {
     username: '',
     dateBook: '',
     price: undefined,
-    time: ''
+    time: undefined
   }
   public bookKey: '';
 
@@ -47,22 +48,23 @@ export class OwnerViewBookCarPage {
     this.bookRef.getCarBookList().update(this.bookKey, {
       ownerPlate: this.driver.ownerPlate,
       name: this.driver.name,
-      username: this.driver.username,
+      renter: this.driver.renter,
       ic: this.driver.ic,
       phone: this.driver.phone,
       location: this.driver.location,
       dateBook: this.driver.dateBook,
       status: "Accepted",
-      time: this.driver.time,
-      timeLimit: this.driver.timeLimit,
+      startTime: this.driver.startTime,
+      endTime: this.driver.endTime,
+      rentPeriod: this.driver.rentPeriod,
       price: this.driver.price
     }).then(() => {
       this.bookStatusRef.getBookAcceptList().push({
         ownerPlate: this.driver.ownerPlate,
-        username: this.driver.username,
+        username: this.driver.renter,
         dateBook: this.driver.dateBook,
         price: this.driver.price,
-        time: this.driver.time
+        time: this.driver.startTime
       })
       this.navCtrl.setRoot(OwnerProfilePage, {key: this.bookKey});
     });
@@ -72,14 +74,15 @@ export class OwnerViewBookCarPage {
     this.bookRef.getCarBookList().update(this.bookKey, {
       ownerPlate: this.driver.ownerPlate,
       name: this.driver.name,
-      username: this.driver.username,
+      renter: this.driver.renter,
       ic: this.driver.ic,
       phone: this.driver.phone,
       location: this.driver.location,
       dateBook: this.driver.dateBook,
       status: "Rejected",
-      time: this.driver.time,
-      timeLimit: this.driver.timeLimit,
+      startTime: this.driver.startTime,
+      endTime: this.driver.endTime,
+      rentPeriod: this.driver.rentPeriod,
       price: this.driver.price
     }).then(() => {
       this.navCtrl.push("OwnerRejectBookPage", {driver: driver});

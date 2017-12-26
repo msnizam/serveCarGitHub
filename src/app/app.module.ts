@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { CommonModule } from '@angular/common';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -17,6 +18,7 @@ import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { UserViewCarPage } from '../pages/user/user-view-car/user-view-car';
 import { OwnerViewRequestPage } from '../pages/owner/owner-view-request/owner-view-request';
 import { UserViewRequestPage } from '../pages/user/user-view-request/user-view-request';
+import { UserViewBookRequestPage } from '../pages/user/user-view-book-request/user-view-book-request';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -34,6 +36,13 @@ import { ToastService } from './../services/toast/toast.service';
 
 
 const FirebaseConfig = {
+    /*apiKey: "AIzaSyCgbYFPYT8L4aOzPLGh8lQujHjoznqNKz4",
+    authDomain: "car-rental-project.firebaseapp.com",
+    databaseURL: "https://car-rental-project.firebaseio.com",
+    projectId: "car-rental-project",
+    storageBucket: "car-rental-project.appspot.com",
+    messagingSenderId: "88062901600"*/
+
     apiKey: "AIzaSyBaIVtjt8SMQxL0C66_1HvipoDagOsdYNs",
     authDomain: "myapp-ba3d7.firebaseapp.com",
     databaseURL: "https://myapp-ba3d7.firebaseio.com",
@@ -56,7 +65,8 @@ const FirebaseConfig = {
     AdminPage,
     CreateProfilePage,
     OwnerViewRequestPage,
-    UserViewRequestPage
+    UserViewRequestPage,
+    UserViewBookRequestPage
   ],
   imports: [
     CommonModule,
@@ -81,7 +91,8 @@ const FirebaseConfig = {
     AdminPage,
     CreateProfilePage,
     OwnerViewRequestPage,
-    UserViewRequestPage
+    UserViewRequestPage,
+    UserViewBookRequestPage
   ],
   providers: [
     StatusBar,
@@ -93,6 +104,7 @@ const FirebaseConfig = {
     PlatNumberService,
     CarBookService,
     CarStatusService,
+    InAppBrowser
   ]
 })
 export class AppModule {}

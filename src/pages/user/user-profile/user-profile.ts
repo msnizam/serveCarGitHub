@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, IonicPage, ModalController, MenuController } from 'ionic-angular';
-import { Owner } from './../../../models/owner/owner.model';
+import { Renter } from './../../../models/owner/owner.model';
 import { OwnerDetailsService } from './../../../services/owner-details/owner-details.service';
 import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -13,7 +13,7 @@ import { HomePage } from '../../home/home';
 })
 export class UserProfilePage {
   activeMenu: string = 'menu-U'
-  public myPerson = {} as Owner;
+  public myPerson = {} as Renter;
 
   constructor(public navCtrl: NavController,
   private afAuth: AngularFireAuth,
@@ -26,11 +26,11 @@ export class UserProfilePage {
   }
 
   ionViewDidLoad() {
-    this.owner.getRentailDetails().on('value', snapshot => {
+    this.owner.getRenterDetails().on('value', snapshot => {
         this.myPerson = snapshot.val();
     });
   }
-  async editProfile(myPerson: Owner){
+  async editProfile(myPerson: Renter){
     this.navCtrl.push("UserEditProfilePage", {myPerson : myPerson});
   }
 

@@ -6,8 +6,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { CarListService } from './../../../services/car-list/car-list.service';
 import { Car } from './../../../models/car/car.model';
-import { OwnerProfilePage } from '../../owner/owner-profile/owner-profile';
-import { UserProfilePage } from '../../user/user-profile/user-profile';
 
 @IonicPage()
 @Component({
@@ -23,17 +21,21 @@ export class SearchPage {
   public carList: Array<any> = [];
   public loadedCarList: Array<any> = [];
   public userStatus = '';
+  public availability = '';
 
   constructor(
     private rent: CarListService,
     private afAuth: AngularFireAuth,
-    public navCtrl: NavController, public navParams: NavParams) {
+    public navCtrl: NavController,
+    public navParams: NavParams) {
       this.carRef = firebase.database().ref(`Car-Rental/Car-List/`);
       //////////////////////////////////
       this.carRef.on('value', carList => {
         let cars = [];
         carList.forEach( car => {
-          cars.push(car.val());
+          this.availability = car.child("/availability/").val();
+          if(this.availability == "Enabled")
+            cars.push(car.val());
           return false;
         });
 
@@ -43,11 +45,13 @@ export class SearchPage {
       /////////////////////////////////
   }
 
-  ionViewDidLoad() { //display all car list of all owner
+  ionViewDidLoad() { //display all car list of all owners
     this.carRef.on('value', snapshot => {
       this.carList = [];
-      snapshot.forEach( carSnap => {
-        this.carList.push(carSnap.val());
+      snapshot.forEach( childSnapshot => {
+        this.availability = childSnapshot.child("/availability/").val();
+        if(this.availability == "Enabled")
+          this.carList.push(childSnapshot.val());
         return false;
       });
     })
@@ -55,14 +59,14 @@ export class SearchPage {
 
   async viewCar(car : Car){
     this.afAuth.authState.subscribe((person) => {
-    this.userRef = firebase.database().ref(`Car-Rental/User/Rental/${person.uid}`);
+    this.userRef = firebase.database().ref(`Car-Rental/User/Renter/${person.uid}`);
     this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
     this.userRef.once('value', snapshot => {
-        this.userStatus = snapshot.child("/status/").val();
+      this.userStatus = snapshot.child("/status/").val();
     })
 
     this.ownerRef.once('value', snapshot => {
-        this.userStatus = snapshot.child("/status/").val();
+      this.userStatus = snapshot.child("/status/").val();
     })
 
     if(this.userStatus == "Owner"){
@@ -87,7 +91,7 @@ export class SearchPage {
     }
 
     this.carList = this.carList.filter((v) => {
-      if((v.make || v.model || v.transmission) && q){
+      if((v.make || v.model || v.transmission) && q &&(v.availability == "Enabled")){
         if(v.make.toLowerCase().indexOf(q.toLowerCase()) > -1)
           return true;
 
@@ -101,25 +105,5 @@ export class SearchPage {
       }
     });
   }
-  async profile(){
-    this.afAuth.authState.subscribe((person) => {
-    this.userRef = firebase.database().ref(`Car-Rental/User/Rental/${person.uid}`);
-    this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
-    this.userRef.once('value', snapshot => {
-        this.userStatus = snapshot.child("/status/").val();
-    })
-
-    this.ownerRef.once('value', snapshot => {
-        this.userStatus = snapshot.child("/status/").val();
-    })
-
-    if(this.userStatus == "Owner"){
-      this.navCtrl.setRoot(OwnerProfilePage);
-    }
-    else if(this.userStatus == "User"){
-      this.navCtrl.setRoot(UserProfilePage);
-    }
-  })
-}
 
 }

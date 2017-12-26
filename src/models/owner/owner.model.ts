@@ -5,7 +5,18 @@ export interface Owner{
   email: string;
   status: string;
   phone: number;
+  carCount: number;
+  carLimit: number;
 }
+export interface Renter{
+  key?: string;
+  fullname: string;
+  username: string;
+  email: string;
+  status: string;
+  phone: number;
+}
+
 export interface User{
   email: string;
   password: string;
@@ -15,7 +26,7 @@ export interface Accept{
   dateBook: string;
   username: string;
   price: number;
-  time: string;
+  time: number;
 }
 export interface Reject{
   title: string;

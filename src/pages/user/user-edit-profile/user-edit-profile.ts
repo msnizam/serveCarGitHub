@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Owner } from './../../../models/owner/owner.model';
+import { Renter } from './../../../models/owner/owner.model';
 import { OwnerDetailsService } from './../../../services/owner-details/owner-details.service';
 import { UserProfilePage } from '../../user/user-profile/user-profile';
 import { ToastService } from './../../../services/toast/toast.service';
@@ -11,7 +11,7 @@ import { ToastService } from './../../../services/toast/toast.service';
   templateUrl: 'user-edit-profile.html',
 })
 export class UserEditProfilePage {
-  owner : Owner = {
+  renter : Renter = {
     username: '',
     fullname: '',
     email: '',
@@ -27,11 +27,11 @@ export class UserEditProfilePage {
   }
 
   ionViewDidLoad() {
-    this.owner = this.navParams.get('myPerson');
+    this.renter = this.navParams.get('myPerson');
   }
 
-  editProfile(owner: Owner){
-    this.ownerRef.editRentail(owner).then(() => {
+  editProfile(renter : Renter){
+    this.ownerRef.editRenter(renter).then(() => {
       this.toast.show('Your changes have been saved!');
       this.navCtrl.setRoot(UserProfilePage);
     });

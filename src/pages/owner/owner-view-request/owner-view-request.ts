@@ -5,7 +5,6 @@ import firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
 import { Driver } from './../../../models/driver/driver.model';
 import { CarBookService } from './../../../services/car-list/car-book.service';
-import { OwnerProfilePage } from '../../owner/owner-profile/owner-profile';
 
 @IonicPage()
 @Component({
@@ -17,6 +16,7 @@ export class OwnerViewRequestPage {
   carBookList : Observable<Driver[]>;
   //carBookList : Array<any> = [];
   carBookRef: firebase.database.Reference;
+  public plate = '';
 
   constructor(
     public navCtrl: NavController,
@@ -28,15 +28,16 @@ export class OwnerViewRequestPage {
   }
 
   ionViewDidLoad() {
-    /*this.carBookRef.on('value', snapshot => {
-      this.carBookList = [];
+    this.carBookRef.on('value', snapshot => {
+      //this.carBookList = [];
     snapshot.forEach(childSnapshot => {
-      this.carBookList.push(childSnapshot.val());
+      this.plate = childSnapshot.child("/ownerPlate/").val();
       return false;
     })
-  })*/
+  })
     this.carBookList = this.carBook
-      .getCarBookList() //db list
+      .getCarBookList()
+      //.getFilteredCarBookList(this.plate) //db list
       .snapshotChanges() //key and value passed
       .map(changes => {
         return changes.map(c => ({
@@ -49,7 +50,4 @@ export class OwnerViewRequestPage {
     this.navCtrl.push("OwnerViewBookCarPage", {key: driver.key, driver: driver });
   }
 
-  async profile(){
-    this.navCtrl.setRoot(OwnerProfilePage);
-  }
 }

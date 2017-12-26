@@ -14,7 +14,8 @@
     <ion-item>Transmission: {{car.transmission}}</ion-item>
     <ion-item>Year Make: {{car.year}}</ion-item>
     <ion-item>Availability: {{car.availability}}</ion-item>
-    <ion-item>Rental Price: RM{{car.rentPrice}}/hour</ion-item>
+    <ion-item>Weekdays Price: RM{{car.weekdayRP}}/hour</ion-item>
+    <ion-item>Weekend Price: RM{{car.weekendRP}}/hour</ion-item>
   </ion-list>
 
   <ion-buttons>
@@ -22,6 +23,6 @@
   </ion-buttons>
 
   <ion-buttons>
-    <button ion-button clear (click)=viewOwner() >View Owner</button>
+    <button ion-button clear (click)=viewOwner() >Contact Owner</button>
   </ion-buttons>
 </ion-content>

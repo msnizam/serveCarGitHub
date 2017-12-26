@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-item *ngFor="let driver of carBookList | async">
+  <ion-item *ngFor="let driver of carBook">
     <div>{{driver.name}}</div>
     <p>{{driver.ownerPlate}} RM {{driver.price}}</p>
     <button ion-button clear item-end (click) ="viewBookList(driver)">View</button>

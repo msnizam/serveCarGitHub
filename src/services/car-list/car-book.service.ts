@@ -9,6 +9,7 @@ export class CarBookService {
 
   ownerID: string;
   carBookRef: AngularFireList<Driver>
+  ownerCarListRef: AngularFireList<Driver>
 
   constructor(
     private db: AngularFireDatabase,
@@ -22,6 +23,11 @@ export class CarBookService {
   getCarBookList(){
     return this.carBookRef;
   }
+
+  getFilteredCarBookList(plate: string){
+    this.ownerCarListRef = this.db.list(`Car-Rental/Car-List`, ref => ref.orderByChild('ownerPlate').equalTo(plate));
+    return this.ownerCarListRef;
+ }
 
   removeCarBook(driver: Driver){
     return this.carBookRef.remove(driver.key);
