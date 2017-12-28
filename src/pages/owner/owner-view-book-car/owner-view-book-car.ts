@@ -16,6 +16,7 @@ export class OwnerViewBookCarPage {
     ownerPlate: '',
     name: '',
     renter: '',
+    owner: '',
     ic: undefined,
     phone: undefined,
     location: '',
@@ -45,10 +46,11 @@ export class OwnerViewBookCarPage {
   }
 
   async accept(driver: Driver){
-    this.bookRef.getCarBookList().update(this.bookKey, {
+    this.bookRef.getCarBookList().update(this.bookKey,{
       ownerPlate: this.driver.ownerPlate,
       name: this.driver.name,
       renter: this.driver.renter,
+      owner: this.driver.owner,
       ic: this.driver.ic,
       phone: this.driver.phone,
       location: this.driver.location,
@@ -75,6 +77,7 @@ export class OwnerViewBookCarPage {
       ownerPlate: this.driver.ownerPlate,
       name: this.driver.name,
       renter: this.driver.renter,
+      owner: this.driver.owner,
       ic: this.driver.ic,
       phone: this.driver.phone,
       location: this.driver.location,

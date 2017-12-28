@@ -32,7 +32,7 @@
         <p>Sorry, field User Identification is required!</p>
   </ion-item>
   <ion-item *ngIf="carBookForm.controls.identify.hasError('minlength') && carBookForm.controls.identify.touched">
-      <p>Sorry, maximum username length is 6!</p>
+      <p>Sorry, minimum username length is 6!</p>
   </ion-item>
   <ion-item *ngIf="carBookForm.controls.identify.hasError('maxlength') && carBookForm.controls.identify.touched">
       <p>Sorry, maximum username length is 15!</p>
@@ -46,6 +46,9 @@
   </ion-item>
   <ion-item *ngIf="carBookForm.controls.phoneNum.hasError('required') && carBookForm.controls.phoneNum.touched">
         <p>Sorry, field Phone Number is required!</p>
+  </ion-item>
+  <ion-item *ngIf="carBookForm.controls.phoneNum.hasError('maxlength') && carBookForm.controls.phoneNum.touched">
+      <p>Sorry, maximum username length is 11!</p>
   </ion-item>
 </div>
 

@@ -51,13 +51,13 @@ export class LoginPage {
         this.userRef = firebase.database().ref(`Car-Rental/User/Renter/${person.uid}`);
         this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
         this.userRef.once('value', snapshot => {
-            this.userStatus = snapshot.child("/status/").val();
+            this.userStatus = snapshot.child("/email/").val();
         })
         this.ownerRef.once('value', snapshot => {
-            this.ownerStatus = snapshot.child("/status/").val();
+            this.ownerStatus = snapshot.child("/email/").val();
         })
 
-        if(user.email == 'admin@mail.com' && user.password == 'admin123'){
+        /*if(user.email == 'admin@mail.com' && user.password == 'admin123'){
           if(person.email == user.email && person.password == user.password){
           this.adminRef.set({
             email: user.email,
@@ -65,19 +65,24 @@ export class LoginPage {
           });
           this.navCtrl.setRoot(AdminPage);
           }
-        }
-        else{
+        }*/
+        //else{
         //if(person.emailVerified){
+        //await this.delay(5000);
+        if(this.ownerStatus == user.email){
           let loader = this.loadingCtrl.create({
-            content: `Welcome ${person.email} `,
+            content: `Welcome ${user.email} `,
             duration: 5000
           });
-        loader.present();
-        //await this.delay(5000);
-        if(this.ownerStatus == "Owner"){
+          loader.present();
           this.navCtrl.setRoot(OwnerProfilePage);
         }
-        else if(this.userStatus == "User"){
+        else if(this.userStatus == user.email){
+          let loader = this.loadingCtrl.create({
+            content: `Welcome ${user.email} `,
+            duration: 5000
+          });
+          loader.present();
           this.navCtrl.setRoot(UserProfilePage);
         }
 
@@ -85,7 +90,7 @@ export class LoginPage {
         else{
             this.presentAlert()
         }*/
-      }
+      //}
     });
   }
 
@@ -103,6 +108,10 @@ export class LoginPage {
     buttons: ['Dismiss']
   });
   alert.present();
+  }
+
+  delay(ms: number) {
+     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

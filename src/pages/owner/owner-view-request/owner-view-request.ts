@@ -16,26 +16,52 @@ export class OwnerViewRequestPage {
   carBookList : Observable<Driver[]>;
   //carBookList : Array<any> = [];
   carBookRef: firebase.database.Reference;
-  public plate = '';
+  carListRef: firebase.database.Reference;
+  usernameRef: firebase.database.Reference;
+  public carBook : Array<{index: number, ownerPlate: string,
+  name: string,
+  renter: string,
+  owner: string,
+  ic: string,
+  phone: number,
+  location: string,
+  dateBook: string,
+  status: string,
+  startTime: number,
+  endTime: number,
+  rentPeriod: number,
+  price: number}> = [];
+  public ownerPlate= [];
+  public name= [];
+  public renter= [];
+  public owner= [];
+  public ic= [];
+  public phone= [];
+  public location= [];
+  public dateBook= [];
+  public status= [];
+  public startTime= [];
+  public endTime= [];
+  public rentPeriod= [];
+  public price= [];
+  public owner_username = '';
 
   constructor(
     public navCtrl: NavController,
     private afAuth: AngularFireAuth,
-    private carBook: CarBookService) {
+    private book: CarBookService
+  ) {
       this.afAuth.authState.subscribe((person) => {
         this.carBookRef = firebase.database().ref(`Car-Rental/Car-Book`);
+        this.usernameRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}/username`);
+        this.usernameRef.on('value', snapshot => {
+          this.owner_username = snapshot.child("/username/").val();
+        });
       })
   }
 
   ionViewDidLoad() {
-    this.carBookRef.on('value', snapshot => {
-      //this.carBookList = [];
-    snapshot.forEach(childSnapshot => {
-      this.plate = childSnapshot.child("/ownerPlate/").val();
-      return false;
-    })
-  })
-    this.carBookList = this.carBook
+    this.carBookList = this.book
       .getCarBookList()
       //.getFilteredCarBookList(this.plate) //db list
       .snapshotChanges() //key and value passed
@@ -45,6 +71,43 @@ export class OwnerViewRequestPage {
           ...c.payload.val(),
         }));
       });
+
+      /*this.carBookRef.on('value', snapshot => {
+        var index = 0;
+        this.carBook = []
+        snapshot.forEach(childSnapshot => {
+          this.ownerPlate[index] = childSnapshot.child("/ownerPlate/").val();
+          this.name[index] = childSnapshot.child("/name/").val();
+          this.renter[index] = childSnapshot.child("/renter/").val();
+          this.owner[index] = <string>childSnapshot.child("/owner/").val();
+          this.ic[index] = childSnapshot.child("/ic/").val();
+          this.phone[index] = childSnapshot.child("/phone/").val();
+          this.location[index] = childSnapshot.child("/location/").val();
+          this.dateBook[index] = childSnapshot.child("/dateBook/").val();
+          this.status[index] = <string>childSnapshot.child("/status/").val();
+          this.startTime[index] = childSnapshot.child("/startTime/").val();
+          this.endTime[index] = childSnapshot.child("/endTime/").val();
+          this.rentPeriod[index] = childSnapshot.child("/rentPeriod/").val();
+          this.price[index] = childSnapshot.child("/price/").val();
+
+          if(/*<string>this.owner_username == this.owner[index] &&*//*this.status[index] == "Pending"){
+            this.carBook.push({index: (index+1), ownerPlate: this.ownerPlate[index],
+            name: this.name[index],
+            renter: this.renter[index],
+            owner: this.owner[index],
+            ic: this.ic[index],
+            phone: this.phone[index],
+            location: this.location[index],
+            dateBook: this.dateBook[index],
+            status: this.status[index],
+            startTime: this.startTime[index],
+            endTime: this.endTime[index],
+            rentPeriod: this.rentPeriod[index],
+            price: this.price[index]})
+          }
+          return false;
+        })
+      })*/
   }
   async viewBookList(driver: Driver){
     this.navCtrl.push("OwnerViewBookCarPage", {key: driver.key, driver: driver });

@@ -3,6 +3,7 @@ export interface Driver{
   ownerPlate: string;
   name: string;
   renter: string;
+  owner: string;
   ic: string;
   phone: number;
   location: string;

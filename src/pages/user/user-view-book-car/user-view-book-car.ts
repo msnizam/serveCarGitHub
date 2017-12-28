@@ -15,6 +15,7 @@ export class UserViewBookCarPage {
     ownerPlate: '',
     name: '',
     renter: '',
+    owner: '',
     ic: undefined,
     phone: undefined,
     location: '',

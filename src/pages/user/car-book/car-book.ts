@@ -35,6 +35,7 @@ export class CarBookPage {
     ownerPlate: '',
     name: '',
     renter: '',
+    owner: '',
     ic: '',
     phone: undefined,
     location: '',
@@ -47,6 +48,7 @@ export class CarBookPage {
   }
 
   public ownerCarPLate = '';
+  public ownerName = '';
   public username = '';
   public totalPrice = 0;
   public date: any;
@@ -70,7 +72,7 @@ export class CarBookPage {
       this.carBookForm = formBuilder.group({
         uname: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
         identify: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(15)])],
-        phoneNum: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
+        phoneNum: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.maxLength(11)])],
         place: ['',  Validators.compose([Validators.required])]
       });
 
@@ -116,6 +118,7 @@ export class CarBookPage {
   ionViewDidLoad() {
     this.car = this.navParams.get('car');
     this.ownerCarPLate = this.car.plate;
+    this.ownerName = this.car.owner;
   }
 
   bookCar(driver: Driver){
@@ -134,6 +137,7 @@ export class CarBookPage {
           ownerPlate: this.ownerCarPLate,
           name: driver.name,
           renter: this.username,
+          owner: this.ownerName,
           ic: driver.ic,
           phone: driver.phone,
           location: driver.location,
