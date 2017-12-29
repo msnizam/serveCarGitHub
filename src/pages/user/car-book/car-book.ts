@@ -19,6 +19,7 @@ import { Driver } from './../../../models/driver/driver.model';
 export class CarBookPage {
   carBookForm: FormGroup;
   userRef: firebase.database.Reference;
+
   car: Car = {
     type: '',
     make: '',
@@ -31,8 +32,12 @@ export class CarBookPage {
     availability: '',
     owner: ''
   }
+
   driver: Driver = {
+    carMake: '',
+    carModel: '',
     ownerPlate: '',
+    ownerUsername: '',
     name: '',
     renter: '',
     ic: '',
@@ -41,12 +46,15 @@ export class CarBookPage {
     dateBook: '',
     status: '',
     startTime: undefined,
-    endTime: undefined,
+    //endTime: undefined,
     rentPeriod: undefined,
     price: undefined
   }
 
+  public carMake = '';
+  public carModel = '';
   public ownerCarPLate = '';
+  public ownerUsername = '';
   public username = '';
   public totalPrice = 0;
   public date: any;
@@ -60,12 +68,12 @@ export class CarBookPage {
     public navParams: NavParams,
     private afData: AngularFireDatabase,
     private bookRef: CarBookService,
-    public nav: NavController,
+    public navCtrl: NavController,
     private loadingCtrl: LoadingController,
     private afAuth: AngularFireAuth,
     private formBuilder: FormBuilder,
     public alertCtrl: AlertController) {
-      this.nav = nav;
+      this.navCtrl = navCtrl;
 
       this.carBookForm = formBuilder.group({
         uname: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
@@ -74,17 +82,6 @@ export class CarBookPage {
         place: ['',  Validators.compose([Validators.required])]
       });
 
-/*        var today = new Date();
-        today.setHours(0);
-        today.setMinutes(0);
-        today.setSeconds(0);
-        today.setMilliseconds(0);
-        date: today.getDate(),
-        month: today.getMonth(),
-        year: today.getFullYear(),
-        day: today.getDay(),
-      //  parseInt(myString)
-      */
       this.date = new Date();
       this.todayDate = this.date.getFullYear().toString()+'-'+
                        (this.date.getMonth()+1).toString()+'-'+
@@ -132,6 +129,9 @@ export class CarBookPage {
       }).then(() => {
         this.bookRef.getCarBookList().push({
           ownerPlate: this.ownerCarPLate,
+          carMake: this.car.make,
+          carModel: this.car.model,
+          ownerUsername: this.car.owner,
           name: driver.name,
           renter: this.username,
           ic: driver.ic,
@@ -140,7 +140,7 @@ export class CarBookPage {
           dateBook: driver.dateBook,
           status: "Pending",
           startTime: driver.startTime,
-          endTime: driver.endTime,
+          //endTime: driver.endTime,
           rentPeriod: driver.rentPeriod,
           price: this.totalPrice,
         }).then(ref => {
@@ -149,7 +149,7 @@ export class CarBookPage {
             duration: 1000
           });
           loader.present();
-          this.nav.setRoot(UserProfilePage, {key: ref.key});
+          this.navCtrl.setRoot(UserProfilePage, {key: ref.key});
         })
       });
     })
