@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="danger">
     <ion-title>Check Availability</ion-title>
   </ion-navbar>
 
@@ -13,5 +13,5 @@
     <ion-option value="Enabled">Enabled</ion-option>
     <ion-option value="Disabled">Disabled</ion-option>
   </ion-select>
-  <button ion-button (click) = "available(car)">SAVE</button>
+  <button ion-button block color="danger" small round (click)="available(car)">SAVE</button>
 </ion-content>

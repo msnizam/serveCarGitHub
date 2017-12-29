@@ -1,22 +1,29 @@
+<div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
+  <div class="flb">
+    <div class="Aligner-item Aligner-item--top"></div>
+    <img src="assets/logo.png">
+    <div class="Aligner-item Aligner-item--bottom"></div>
+  </div>
+</div>
+
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button [menuToggle]='activeMenu'>
-      <ion-icon name="menu" ></ion-icon>
+      <ion-icon color="basic" name="menu" ></ion-icon>
     </button>
-    <ion-title align="center">Owner</ion-title>
+    <ion-title align="center">{{myPerson.username}}</ion-title>
 
   <ion-buttons end>
-    <button block clear (click)="logout()" ion-button>
-      Logout
+    <button (click)="logout()" ion-button>
+      <ion-icon block clear name="log-out"></ion-icon>
     </button>
   </ion-buttons>
  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
   <div padding>
-    <ion-segment [(ngModel)]="profile">
+    <ion-segment color="danger" [(ngModel)]="profile">
       <ion-segment-button value="owner">ABOUT ME</ion-segment-button>
       <ion-segment-button value="car">MY CARS</ion-segment-button>
     </ion-segment>
@@ -24,36 +31,38 @@
 
   <div [ngSwitch]="profile">
     <ion-list *ngSwitchCase="'owner'">
-      <ion-list-header>{{myPerson.username}}</ion-list-header>
-        <ion-item>
-          <p>Name: {{myPerson.fullname}}</p>
-          <p>Email: {{myPerson.email}}</p>
-          <p>Phone Number: {{myPerson.phone}}</p>
-          <button ion-button (click) = "editProfile(myPerson)">Update</button>
-        </ion-item>
+      <ion-item>
+        <p>Name: {{myPerson.fullname}}</p>
+        <p>Email: {{myPerson.email}}</p>
+        <p>Phone Number: {{myPerson.phone}}</p>
+      </ion-item>
+      <button color="danger" clear ion-button (click)="editProfile(myPerson)">
+        <ion-icon name="build"></ion-icon> &nbsp;Edit
+      </button>
     </ion-list>
 
     <ion-list *ngSwitchCase="'car'">
-      <ion-list-header> Cars </ion-list-header>
-        <ion-item *ngFor="let car of carList$ | async">
-          <div>{{car.make}} {{car.model}}</div>
-          <p>{{car.plate}}</p>
-          <button ion-button clear item-end navPush="OwnerViewCarPage"
-            [navParams]="{car: car}">View</button>
-          <button ion-button clear item-end navPush="OwnerEditCarPage"
-            [navParams]="{key: car.key, car: car}">Edit</button>
-            <div>
-              <button ion-button clear item-end navPush="CarAvailablePage"
-                [navParams]="{key: car.key, car: car}">Check Available</button>
-            </div>
-        </ion-item>
+      <ion-item *ngFor="let car of carList$ | async">
+        <div>{{car.make}} {{car.model}}</div>
+        <p>{{car.plate}}</p>
+
+        <button color="danger" ion-button clear item-end navPush="OwnerViewCarPage"
+          [navParams]="{car: car}">View</button>
+
+        <button color="danger" ion-button clear item-end navPush="OwnerEditCarPage"
+          [navParams]="{key: car.key, car: car}">Edit</button>
+
+          <div>
+            <button color="danger" ion-button clear item-end navPush="CarAvailablePage"
+              [navParams]="{key: car.key, car: car}">Check Available</button>
+          </div>
+      </ion-item>
 
         <ion-buttons>
-          <button block clear (click)="compareCarLimit()" ion-button>
+          <button color="danger" block small round (click)="compareCarLimit()" ion-button>
             Add New Car
           </button>
         </ion-buttons>
     </ion-list>
-
   </div>
 </ion-content>

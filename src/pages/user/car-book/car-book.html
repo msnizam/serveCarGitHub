@@ -32,7 +32,7 @@
         <p>Sorry, field User Identification is required!</p>
   </ion-item>
   <ion-item *ngIf="carBookForm.controls.identify.hasError('minlength') && carBookForm.controls.identify.touched">
-      <p>Sorry, minimum username length is 6!</p>
+      <p>Sorry, maximum username length is 6!</p>
   </ion-item>
   <ion-item *ngIf="carBookForm.controls.identify.hasError('maxlength') && carBookForm.controls.identify.touched">
       <p>Sorry, maximum username length is 15!</p>
@@ -46,9 +46,6 @@
   </ion-item>
   <ion-item *ngIf="carBookForm.controls.phoneNum.hasError('required') && carBookForm.controls.phoneNum.touched">
         <p>Sorry, field Phone Number is required!</p>
-  </ion-item>
-  <ion-item *ngIf="carBookForm.controls.phoneNum.hasError('maxlength') && carBookForm.controls.phoneNum.touched">
-      <p>Sorry, maximum username length is 11!</p>
   </ion-item>
 </div>
 
@@ -78,6 +75,14 @@
                   hourValues="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23"
                   minuteValues="0,15,30,45"
                   [(ngModel)]="driver.startTime"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Return Time</ion-label>
+    <ion-datetime displayFormat="HH:mm"
+                  hourValues="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23"
+                  minuteValues="0,15,30,45"
+                  [(ngModel)]="driver.endTime"></ion-datetime>
   </ion-item>
 
   <ion-item>

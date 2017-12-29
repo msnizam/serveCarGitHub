@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar color="danger">
     <ion-title>Edit Profile</ion-title>
   </ion-navbar>
 </ion-header>
@@ -22,5 +22,5 @@
     <ion-input [(ngModel)]="renter.phone"></ion-input>
   </ion-item>
 
-  <button ion-button block clear (click)="editProfile(renter)">Save</button>
+  <button ion-button block color="danger" small (click)="editProfile(renter)">Save</button>
 </ion-content>

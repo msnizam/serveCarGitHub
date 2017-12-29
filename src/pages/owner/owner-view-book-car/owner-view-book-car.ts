@@ -13,16 +13,19 @@ import { OwnerProfilePage } from '../../owner/owner-profile/owner-profile';
 })
 export class OwnerViewBookCarPage {
   driver: Driver = {
+    carMake: '',
+    carModel: '',
     ownerPlate: '',
+    ownerUsername: '',
     name: '',
     renter: '',
-    owner: '',
     ic: undefined,
     phone: undefined,
     location: '',
     dateBook: '',
     status: '',
     startTime: undefined,
+    //endTime: undefined,
     rentPeriod: undefined,
     price: undefined
   }
@@ -45,17 +48,20 @@ export class OwnerViewBookCarPage {
   }
 
   async accept(driver: Driver){
-    this.bookRef.getCarBookList().update(this.bookKey,{
+    this.bookRef.getCarBookList().update(this.bookKey, {
+      carMake: this.driver.carMake,
+      carModel: this.driver.carModel,
       ownerPlate: this.driver.ownerPlate,
+      ownerUsername: this.driver.ownerUsername,
       name: this.driver.name,
       renter: this.driver.renter,
-      owner: this.driver.owner,
       ic: this.driver.ic,
       phone: this.driver.phone,
       location: this.driver.location,
       dateBook: this.driver.dateBook,
       status: "Accepted",
       startTime: this.driver.startTime,
+      //endTime: this.driver.endTime,
       rentPeriod: this.driver.rentPeriod,
       price: this.driver.price
     }).then(() => {
@@ -72,16 +78,19 @@ export class OwnerViewBookCarPage {
 
   async reject(driver: Driver){
     this.bookRef.getCarBookList().update(this.bookKey, {
+      carMake: this.driver.carMake,
+      carModel: this.driver.carModel,
       ownerPlate: this.driver.ownerPlate,
+      ownerUsername: this.driver.ownerUsername,
       name: this.driver.name,
       renter: this.driver.renter,
-      owner: this.driver.owner,
       ic: this.driver.ic,
       phone: this.driver.phone,
       location: this.driver.location,
       dateBook: this.driver.dateBook,
       status: "Rejected",
       startTime: this.driver.startTime,
+      //endTime: this.driver.endTime,
       rentPeriod: this.driver.rentPeriod,
       price: this.driver.price
     }).then(() => {

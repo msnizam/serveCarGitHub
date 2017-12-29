@@ -1,13 +1,14 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <ion-title>Car Booking Request</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-item *ngFor="let driver of carBookList | async">
-    <div>{{driver.name}}</div>
-    <p>{{driver.ownerPlate}} RM {{driver.price}}</p>
-    <button ion-button clear item-end (click) ="viewBookList(driver)">View</button>
+  <ion-item *ngFor="let driver of carBookList$ | async">
+    <div>{{driver.carMake}} {{driver.carModel}}</div>
+    <p>{{driver.ownerPlate}}</p>
+    <p>{{driver.status}}</p>
+    <button ion-button clear item-end color="danger" (click) ="viewBookList(driver)">View</button>
   </ion-item>
 </ion-content>

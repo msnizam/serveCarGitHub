@@ -1,7 +1,12 @@
 <ion-header>
 
-  <ion-navbar color="primary">
-    <ion-title>{{car.make}} {{car.model}}</ion-title>
+  <ion-navbar color="danger">
+    <ion-title align="center">{{car.make}} {{car.model}}</ion-title>
+    <ion-buttons end>
+      <button ion-button clear (click)=viewOwner()>
+        <ion-icon ios="logo-whatsapp" md="logo-whatsapp"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -16,13 +21,8 @@
     <ion-item>Availability: {{car.availability}}</ion-item>
     <ion-item>Weekdays Price: RM{{car.weekdayRP}}/hour</ion-item>
     <ion-item>Weekend Price: RM{{car.weekendRP}}/hour</ion-item>
+    <ion-buttons>
+      <button ion-button color="danger" block small round (click)=viewCar(car) >Book</button>
+    </ion-buttons>
   </ion-list>
-
-  <ion-buttons>
-    <button ion-button (click)=viewCar(car) >Book</button>
-  </ion-buttons>
-
-  <ion-buttons>
-    <button ion-button clear (click)=viewOwner() >Contact Owner</button>
-  </ion-buttons>
 </ion-content>

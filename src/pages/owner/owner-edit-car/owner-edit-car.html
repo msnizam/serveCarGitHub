@@ -1,7 +1,7 @@
 <ion-header>
 
-  <ion-navbar color="primary">
-    <ion-title>{{car.model}}</ion-title>
+  <ion-navbar color="danger">
+    <ion-title>{{car.make}} {{car.model}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -74,6 +74,6 @@
     <ion-input [(ngModel)]="car.weekendRP" type="number" placeholder="5.00"></ion-input>
   </ion-item>
 
-  <button ion-button block clear (click)="editCar(car)">Save</button>
-  <button ion-button block clear color="danger" (click)="confirmRemove()">Remove</button>
+  <button ion-button block color="light" small round (click)="saveCar(car)">Save</button>
+  <button ion-button block color="danger" small round (click)="confirmRemove(car)">Remove</button>
 </ion-content>

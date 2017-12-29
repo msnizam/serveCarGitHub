@@ -35,19 +35,18 @@ export class CarBookPage {
     ownerPlate: '',
     name: '',
     renter: '',
-    owner: '',
     ic: '',
     phone: undefined,
     location: '',
     dateBook: '',
     status: '',
     startTime: undefined,
+    endTime: undefined,
     rentPeriod: undefined,
     price: undefined
   }
 
   public ownerCarPLate = '';
-  public ownerName = '';
   public username = '';
   public totalPrice = 0;
   public date: any;
@@ -71,7 +70,7 @@ export class CarBookPage {
       this.carBookForm = formBuilder.group({
         uname: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
         identify: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(15)])],
-        phoneNum: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.maxLength(11)])],
+        phoneNum: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])],
         place: ['',  Validators.compose([Validators.required])]
       });
 
@@ -117,7 +116,6 @@ export class CarBookPage {
   ionViewDidLoad() {
     this.car = this.navParams.get('car');
     this.ownerCarPLate = this.car.plate;
-    this.ownerName = this.car.owner;
   }
 
   bookCar(driver: Driver){
@@ -136,13 +134,13 @@ export class CarBookPage {
           ownerPlate: this.ownerCarPLate,
           name: driver.name,
           renter: this.username,
-          owner: this.ownerName,
           ic: driver.ic,
           phone: driver.phone,
           location: driver.location,
           dateBook: driver.dateBook,
           status: "Pending",
           startTime: driver.startTime,
+          endTime: driver.endTime,
           rentPeriod: driver.rentPeriod,
           price: this.totalPrice,
         }).then(ref => {

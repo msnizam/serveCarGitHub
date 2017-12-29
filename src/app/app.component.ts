@@ -6,7 +6,6 @@ import { MenuController } from 'ionic-angular';
 
 import { SearchPage } from '../pages/user/search/search';
 import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { OwnerViewRequestPage } from '../pages/owner/owner-view-request/owner-view-request';
 import { UserViewRequestPage } from '../pages/user/user-view-request/user-view-request';

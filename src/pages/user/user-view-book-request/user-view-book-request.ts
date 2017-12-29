@@ -14,22 +14,27 @@ import { OwnerDetailsService } from './../../../services/owner-details/owner-det
 })
 export class UserViewBookRequestPage {
   public carBook: Array<{
-                        index: number,
-                        ownerPlate: string,
-                        name: string,
-                        renter: string,
-                        ic: string,
-                        phone: number,
-                        location: string,
-                        dateBook: string,
-                        status: string,
-                        startTime: number,
-                        rentPeriod: number,
-                        price: number}> = [];
+    index: number,
+    carMake: string,
+    carModel: string,
+    ownerPlate: string,
+    name: string,
+    renter: string,
+    ic: string,
+    phone: number,
+    location: string,
+    dateBook: string,
+    status: string,
+    startTime: number,
+    endTime: number,
+    rentPeriod: number,
+    price: number}> = [];
+
   carBookList : Observable<Driver[]>;
-  //carBookList : Array<any> = [];
   carBookRef: firebase.database.Reference;
   userRef: firebase.database.Reference;
+  public carMake = [];
+  public carModel = [];
   public username1 = '';
   public ownerPlate = [];
   public name = [];
@@ -40,6 +45,7 @@ export class UserViewBookRequestPage {
   public dateBook = [];
   public status = [];
   public startTime = [];
+  public endTime = [];
   public rentPeriod = [];
   public price = [];
 
@@ -60,6 +66,8 @@ export class UserViewBookRequestPage {
       this.carBook = [];
       snapshot.forEach(childSnapshot => {
         this.name[index] = childSnapshot.child("/name/").val();
+        this.carMake[index] = childSnapshot.child("/carMake/").val();
+        this.carModel[index] = childSnapshot.child("/carModel/").val();
         this.ownerPlate[index] = childSnapshot.child("/ownerPlate/").val();
         this.dateBook[index] = childSnapshot.child("/dateBook/").val();
         this.renter[index] = <string>childSnapshot.child("/renter/").val();
@@ -68,11 +76,14 @@ export class UserViewBookRequestPage {
         this.location[index] = childSnapshot.child("/location/").val();
         this.status[index] = childSnapshot.child("/status/").val();
         this.startTime[index] = childSnapshot.child("/startTime/").val();
+        this.endTime[index] = childSnapshot.child("/endTime/").val();
         this.rentPeriod[index] = childSnapshot.child("/rentPeriod/").val();
         this.price[index] = childSnapshot.child("/price/").val();
 
         if(this.renter[index] == <string>this.username1){
           this.carBook.push({index: (index+1),
+            carMake: this.carMake[index],
+            carModel: this.carModel[index],
             ownerPlate: this.ownerPlate[index],
             name: this.name[index],
             renter: this.renter[index],
@@ -82,6 +93,7 @@ export class UserViewBookRequestPage {
             dateBook: this.dateBook[index],
             status: this.status[index],
             startTime: this.startTime[index],
+            endTime: this.endTime[index],
             rentPeriod: this.rentPeriod[index],
             price: this.price[index]
           })

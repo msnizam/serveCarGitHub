@@ -1,12 +1,10 @@
 <ion-header>
 
-  <ion-navbar>
-
+  <ion-navbar color="danger">
     <ion-title>search</ion-title>
   </ion-navbar>
 
 </ion-header>
-
 
 <ion-content padding>
  <ion-searchbar (ionInput)="getCarList($event)"></ion-searchbar>
@@ -15,6 +13,6 @@
    <p>Transmission: {{car.transmission}}</p>
    <p>Weekday: RM{{car.weekdayRP}} (per hour)</p>
    <p>Weekend: RM{{car.weekendRP}} (per hour)</p>
-   <button ion-button clear item-end (click)=viewCar(car) >View</button>
+   <button ion-button clear color="danger" item-end (click)=viewCar(car)>View</button>
  </ion-item>
 </ion-content>

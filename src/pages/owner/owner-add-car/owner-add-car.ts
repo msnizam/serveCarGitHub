@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import firebase from 'firebase';
-import { PlatNumberService } from './../../../services/car-list/plate-number.service';
 import { CarListService } from './../../../services/car-list/car-list.service';
 import { OwnerDetailsService } from './../../../services/owner-details/owner-details.service';
 import { ToastService } from './../../../services/toast/toast.service';
@@ -50,7 +49,6 @@ export class OwnerAddCarPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private plateRef: PlatNumberService,
     private ownerServ: OwnerDetailsService,
     private rent: CarListService,
     private afData: AngularFireDatabase,
@@ -75,7 +73,7 @@ export class OwnerAddCarPage {
           this.fullname = snapshot.child("/fullname/").val();
           this.phone = snapshot.child("/phone/").val();
           this.status = snapshot.child("/status/").val();
-          this.username = snapshot.child("/username/").val();          
+          this.username = snapshot.child("/username/").val();
         });
       })
   }

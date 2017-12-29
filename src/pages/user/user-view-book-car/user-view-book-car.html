@@ -1,6 +1,6 @@
 <ion-header>
-    <ion-navbar>
-      <ion-title>Booking Details for {{driver.ownerPlate}}</ion-title>
+    <ion-navbar color="danger">
+      <ion-title>{{driver.carMake}} {{driver.carModel}}</ion-title>
     </ion-navbar>
 
   </ion-header>
@@ -12,9 +12,9 @@
       <ion-item>Phone Number: {{driver.phone}}</ion-item>
       <ion-item>Pick Up Location: {{driver.location}}</ion-item>
       <ion-item>Date: {{driver.dateBook}}</ion-item>
-      <ion-item>Duration: {{driver.rentPeriod}}</ion-item>
+      <ion-item>Rent Period: {{driver.rentPeriod}} Hours</ion-item>
       <ion-item>Status: {{driver.status}}</ion-item>
-      <ion-item>Price: RM {{driver.price}}</ion-item>
+      <ion-item>Price: RM{{driver.price}}</ion-item>
     </ion-list>
 
   </ion-content>

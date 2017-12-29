@@ -4,7 +4,7 @@ import { Renter } from './../../../models/owner/owner.model';
 import { OwnerDetailsService } from './../../../services/owner-details/owner-details.service';
 import firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { HomePage } from '../../home/home';
+import { LoginPage } from '../../login/login';
 
 @IonicPage()
 @Component({
@@ -12,6 +12,7 @@ import { HomePage } from '../../home/home';
   templateUrl: 'user-profile.html',
 })
 export class UserProfilePage {
+  splash = true;
   activeMenu: string = 'menu-U'
   public myPerson = {} as Renter;
 
@@ -26,17 +27,19 @@ export class UserProfilePage {
   }
 
   ionViewDidLoad() {
+    setTimeout(() => this.splash = false, 4000);
     this.owner.getRenterDetails().on('value', snapshot => {
         this.myPerson = snapshot.val();
     });
   }
+
   async editProfile(myPerson: Renter){
     this.navCtrl.push("UserEditProfilePage", {myPerson : myPerson});
   }
 
   async confirmLogout(){
     return this.afAuth.auth.signOut().then(() => {
-      this.navCtrl.setRoot(HomePage);
+      this.navCtrl.setRoot(LoginPage);
     });
   }
 

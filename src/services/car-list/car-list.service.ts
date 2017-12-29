@@ -9,12 +9,9 @@ export class CarListService {
 
   ownerID: string;
   carListRef: AngularFireList<Car>
-  ownerCarListRef: AngularFireList<Car>
   ///////////////////////////////////////
   ownerRef: firebase.database.Reference;
-  carRef: firebase.database.Reference;
-  public owner_username: '';
-  public carlist_username: '';
+  public owner_username: string;
   ///////////////////////////////////////
   constructor(
     private db: AngularFireDatabase,
@@ -22,39 +19,22 @@ export class CarListService {
   ) {
     this.afAuth.authState.subscribe(owner => {
       if(owner) this.ownerID = owner.uid;
-      this.carListRef = this.db.list(`Car-Rental/Car-List`);
-      /////////////////////////////////////
-      this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${owner.uid}/username`);
+      this.carListRef = this.db.list<Car>(`Car-Rental/Car-List`);
+
+      this.ownerRef = firebase.database().ref(`Car-Rental/User/Owner/${this.ownerID}/username`);
       this.ownerRef.on('value', snapshot => {
         this.owner_username = snapshot.val();
       });
-      this.carRef = firebase.database().ref(`Car-Rental/Car-List`);
-      this.carRef.on('value', snapshot => {
-        snapshot.forEach(childSnapshot => {
-          this.carlist_username = childSnapshot.child("/owner/").val();
-          //if(this.carlist_username == this.owner_username)
-          //  this.ownerCarListRef.push();
-          return false;
-        })
-      })
-      /////////////////////////////////////
     })
   }
 
   getCarList(){
     return this.carListRef;
   }
-  ///////////////////////////////////////
-  /*setFilteredCarList(car: Car){
-    if(this.carlist_username == this.owner_username)
-      this.ownerCarListRef.push(car);
-  }*/
 
-  getFilteredCarList(username: string){
-    this.afAuth.authState.subscribe(owner => {
-    this.ownerCarListRef = this.db.list(`Car-Rental/Car-List`, ref => ref.orderByChild('owner').equalTo(username));
-    })
-    return this.ownerCarListRef;
+  getFilteredCarList(){
+    return this.db.list<Car>(`Car-Rental/Car-List`,
+      ref => ref.orderByChild('owner').equalTo(this.owner_username));
  }
   ///////////////////////////////////////
   addCar(car: Car){

@@ -1,13 +1,21 @@
+<div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
+  <div class="flb">
+    <div class="Aligner-item Aligner-item--top"></div>
+    <img src="assets/logo.png">
+    <div class="Aligner-item Aligner-item--bottom"></div>
+  </div>
+</div>
+
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button [menuToggle]='activeMenu'>
       <ion-icon name="menu" ></ion-icon>
     </button>
-    <ion-title align="center">User</ion-title>
+    <ion-title align="center">{{myPerson.username}}</ion-title>
 
   <ion-buttons end>
-    <button block clear (click)="logout()" ion-button>
-      Logout
+    <button (click)="logout()" ion-button>
+      <ion-icon block clear name="log-out"></ion-icon>
     </button>
   </ion-buttons>
  </ion-navbar>
@@ -16,10 +24,11 @@
 
 <ion-content padding>
   <ion-item>
-    <h1>{{myPerson.username}}</h1>
     <p>Full Name    : {{myPerson.fullname}}</p>
     <p>Phone Number : {{myPerson.phone}}</p>
     <p>Email        : {{myPerson.email}}</p>
-    <button ion-button (click) = "editProfile(myPerson)">Update</button>
   </ion-item>
+  <button color="danger" item-end clear ion-button (click)="editProfile(myPerson)">
+    <ion-icon name="build"></ion-icon> &nbsp;Edit
+  </button>
 </ion-content>

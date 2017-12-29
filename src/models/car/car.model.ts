@@ -11,8 +11,3 @@ export interface Car{
   availability: string;
   owner: string;
 }
-
-export interface PlateNumber{
-  key?: string;
-  plateNum:string;
-}

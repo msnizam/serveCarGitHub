@@ -12,16 +12,19 @@ import { OwnerProfilePage } from '../../owner/owner-profile/owner-profile';
 })
 export class UserViewBookCarPage {
   driver: Driver = {
+    carMake: '',
+    carModel: '',
     ownerPlate: '',
+    ownerUsername: '',
     name: '',
     renter: '',
-    owner: '',
     ic: undefined,
     phone: undefined,
     location: '',
     dateBook: '',
     status: '',
     startTime: undefined,
+    //endTime: undefined,
     rentPeriod: undefined,
     price: undefined
   }

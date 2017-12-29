@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar color="danger">
     <ion-title>Add New Car</ion-title>
   </ion-navbar>
 </ion-header>
@@ -71,6 +71,6 @@
     <ion-input [(ngModel)]="car.weekendRP" type="number" placeholder="5.00"></ion-input>
   </ion-item>
 
-  <button ion-button block clear (click)="addCar(car)">Add</button>
+  <button ion-button block color="danger" round small (click)="addCar(car)">Add</button>
 
 </ion-content>
