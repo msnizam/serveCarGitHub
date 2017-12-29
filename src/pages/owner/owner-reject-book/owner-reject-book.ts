@@ -22,7 +22,6 @@ export class OwnerRejectBookPage {
     dateBook: '',
     status: '',
     startTime: undefined,
-    endTime: undefined,
     rentPeriod: undefined,
     price: undefined
   }

@@ -24,7 +24,6 @@ export class UserViewBookRequestPage {
                         dateBook: string,
                         status: string,
                         startTime: number,
-                        endTime: number,
                         rentPeriod: number,
                         price: number}> = [];
   carBookList : Observable<Driver[]>;
@@ -41,7 +40,6 @@ export class UserViewBookRequestPage {
   public dateBook = [];
   public status = [];
   public startTime = [];
-  public endTime = [];
   public rentPeriod = [];
   public price = [];
 
@@ -70,7 +68,6 @@ export class UserViewBookRequestPage {
         this.location[index] = childSnapshot.child("/location/").val();
         this.status[index] = childSnapshot.child("/status/").val();
         this.startTime[index] = childSnapshot.child("/startTime/").val();
-        this.endTime[index] = childSnapshot.child("/endTime/").val();
         this.rentPeriod[index] = childSnapshot.child("/rentPeriod/").val();
         this.price[index] = childSnapshot.child("/price/").val();
 
@@ -85,7 +82,6 @@ export class UserViewBookRequestPage {
             dateBook: this.dateBook[index],
             status: this.status[index],
             startTime: this.startTime[index],
-            endTime: this.endTime[index],
             rentPeriod: this.rentPeriod[index],
             price: this.price[index]
           })

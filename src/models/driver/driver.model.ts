@@ -10,7 +10,7 @@ export interface Driver{
   dateBook: string;
   status: string;
   startTime: number;
-  endTime: number;
+  //endTime: number;
   rentPeriod: number;
   price: number;
 }

@@ -42,7 +42,6 @@ export class CarBookPage {
     dateBook: '',
     status: '',
     startTime: undefined,
-    endTime: undefined,
     rentPeriod: undefined,
     price: undefined
   }
@@ -144,7 +143,6 @@ export class CarBookPage {
           dateBook: driver.dateBook,
           status: "Pending",
           startTime: driver.startTime,
-          endTime: driver.endTime,
           rentPeriod: driver.rentPeriod,
           price: this.totalPrice,
         }).then(ref => {

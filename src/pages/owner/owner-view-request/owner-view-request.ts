@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, IonicPage } from 'ionic-angular';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
@@ -28,7 +29,6 @@ export class OwnerViewRequestPage {
   dateBook: string,
   status: string,
   startTime: number,
-  endTime: number,
   rentPeriod: number,
   price: number}> = [];
   public ownerPlate= [];
@@ -41,13 +41,13 @@ export class OwnerViewRequestPage {
   public dateBook= [];
   public status= [];
   public startTime= [];
-  public endTime= [];
   public rentPeriod= [];
   public price= [];
   public owner_username = '';
 
   constructor(
     public navCtrl: NavController,
+    private db: AngularFireDatabase,
     private afAuth: AngularFireAuth,
     private book: CarBookService
   ) {
@@ -61,7 +61,7 @@ export class OwnerViewRequestPage {
   }
 
   ionViewDidLoad() {
-    this.carBookList = this.book
+    /*this.carBookList = this.book
       .getCarBookList()
       //.getFilteredCarBookList(this.plate) //db list
       .snapshotChanges() //key and value passed
@@ -70,7 +70,17 @@ export class OwnerViewRequestPage {
           key: c.payload.key,
           ...c.payload.val(),
         }));
-      });
+      });*/
+
+      this.carBookList = this.db.list<Driver>(`Car-Rental/Car-Book`,
+        ref => ref.orderByChild('owner').equalTo('peterparker88'/*ownerName*/))
+        .snapshotChanges()
+        .map(changes => {
+          return changes.map(c => ({
+            key: c.payload.key,
+            ...c.payload.val(),
+          }));
+        });
 
       /*this.carBookRef.on('value', snapshot => {
         var index = 0;

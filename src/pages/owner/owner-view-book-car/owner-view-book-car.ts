@@ -23,7 +23,6 @@ export class OwnerViewBookCarPage {
     dateBook: '',
     status: '',
     startTime: undefined,
-    endTime: undefined,
     rentPeriod: undefined,
     price: undefined
   }
@@ -57,7 +56,6 @@ export class OwnerViewBookCarPage {
       dateBook: this.driver.dateBook,
       status: "Accepted",
       startTime: this.driver.startTime,
-      endTime: this.driver.endTime,
       rentPeriod: this.driver.rentPeriod,
       price: this.driver.price
     }).then(() => {
@@ -84,7 +82,6 @@ export class OwnerViewBookCarPage {
       dateBook: this.driver.dateBook,
       status: "Rejected",
       startTime: this.driver.startTime,
-      endTime: this.driver.endTime,
       rentPeriod: this.driver.rentPeriod,
       price: this.driver.price
     }).then(() => {

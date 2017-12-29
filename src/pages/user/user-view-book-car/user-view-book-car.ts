@@ -22,7 +22,6 @@ export class UserViewBookCarPage {
     dateBook: '',
     status: '',
     startTime: undefined,
-    endTime: undefined,
     rentPeriod: undefined,
     price: undefined
   }

@@ -8,6 +8,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
+import { TabsPage } from '../pages/tabs/tabs';
+import { UserLoginPage } from '../pages/user-login/user-login';
 import { OwnerProfilePage } from '../pages/owner/owner-profile/owner-profile';
 import { UserProfilePage } from '../pages/user/user-profile/user-profile';
 import { RegisterPage } from '../pages/register/register';
@@ -56,7 +58,9 @@ const FirebaseConfig = {
     MyApp,
     ContactPage,
     HomePage,
+    TabsPage,
     LoginPage,
+    UserLoginPage,
     UserProfilePage,
     OwnerProfilePage,
     RegisterPage,
@@ -81,7 +85,9 @@ const FirebaseConfig = {
     MyApp,
     ContactPage,
     HomePage,
+    TabsPage,
     LoginPage,
+    UserLoginPage,
     UserProfilePage,
     OwnerProfilePage,
     RegisterPage,
