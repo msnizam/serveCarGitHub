@@ -49,7 +49,7 @@ export class OwnerProfilePage {
       this.afAuth.authState.subscribe((person) => {
         this.usernameRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}/username`);
         this.usernameRef.on('value', snapshot => {
-          this.owner_username = snapshot.val();
+          this.owner_username =snapshot.val();
         });
 
         this.carCountRef = firebase.database().ref(`Car-Rental/User/Owner/${person.uid}`);
