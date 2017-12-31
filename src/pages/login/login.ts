@@ -67,25 +67,34 @@ export class LoginPage {
           }
         }
         else{
-        //if(person.emailVerified){
-          let loader = this.loadingCtrl.create({
-            content: `Welcome ${person.email} `,
-            duration: 1500
-          });
-        //loader.present();
         //await this.delay(5000);
         if(this.ownerStatus == "Owner"){
+          if(person.emailVerified){
+            let loader = this.loadingCtrl.create({
+              content: `Welcome ${person.email} `,
+              duration: 1500
+            });
+          loader.present();
           this.navCtrl.setRoot(OwnerProfilePage);
+          }else{
+              this.presentAlert()
+          }
         }
         else if(this.userStatus == "User"){
+          if(person.emailVerified){
+            let loader = this.loadingCtrl.create({
+              content: `Welcome ${person.email} `,
+              duration: 1500
+            });
+          loader.present();
           this.navCtrl.setRoot(UserProfilePage);
+        }else{
+            this.presentAlert()
+        }
         }
 
-        /*}
-        else{
-            this.presentAlert()
-        }*/
-      }
+        }
+
     });
   }
 

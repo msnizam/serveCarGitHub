@@ -44,34 +44,32 @@ export class RegisterPage {
   }
 
   sendEmailVerification() {
-    try{
       this.afAuth.authState.subscribe(auth => {
-          /*auth.sendEmailVerification()
+          auth.sendEmailVerification()
           .then(() => {
-            let loader = this.loadingCtrl.create({
+            /*let loader = this.loadingCtrl.create({
               content: `Email Link Has Been Sent. Please Check!`,
               duration: 1000
             });
             loader.present();*/
-            this.navCtrl.setRoot(CreateProfilePage);
-          //})
+            this.presentConfirm();
+            //this.navCtrl.setRoot(CreateProfilePage);
+          })
         });
-    }
-    catch(e){
-      console.error(e);
-    }
+
   }
-/*presentConfirm() {
-let alert = this.actionSheetCtrl.create({
-    title: 'Email Verification',
-    message: 'Your Email link has been sent.',
-    buttons: [
-      {
-        text: 'Ok',
-        handler: () => {this.nav.setRoot(LoginPage);}
-      }
-    ]
-  });
-  alert.present();
-}*/
+
+  presentConfirm() {
+  let alert = this.alertCtrl.create({
+      title: 'Email Verification',
+      message: 'Your Email link has been sent.',
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {this.navCtrl.setRoot(CreateProfilePage);}
+        }
+      ]
+    });
+    alert.present();
+  }
 }
